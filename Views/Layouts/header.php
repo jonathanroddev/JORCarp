@@ -6,8 +6,3 @@
 </head>
 
 <body>
-<div id="page">
-    <?php echo $content ?>
-</div>
-</body>
-</html>

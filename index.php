@@ -1,5 +1,6 @@
 <?php
 $title = "indice";
-$content = "hola";
-require_once "Views/Layouts/layout.php";
+include_once("Views/Layouts/header.php");
+echo "chachi";
+include_once("Views/Layouts/footer.php");
 ?>

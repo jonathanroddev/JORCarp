@@ -24,9 +24,14 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `cus_address1` varchar(255) NOT NULL,
   `cus_address2` varchar(255) NOT NULL,
   PRIMARY KEY (`cus_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jor_carp.customers: ~1 rows (aproximadamente)
+/*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+REPLACE INTO `customers` (`cus_id`, `cus_name`, `cus_nif`, `cus_address1`, `cus_address2`) VALUES
+	(1, 'Antonio', '123456789P', 'C/Prueba', 'Las Palmas');
+/*!40000 ALTER TABLE `customers` ENABLE KEYS */;
+
 -- Volcando estructura para tabla jor_carp.users
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -37,7 +42,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla jor_carp.users: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

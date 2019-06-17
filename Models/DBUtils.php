@@ -3,7 +3,7 @@ require 'DBConnection.php';
 class DBUtils
 {
 
-    function getData($sql)
+    function getDatas($sql)
     {
         $dbConn = new DBConnection();
         $pdoConnection = $dbConn->PdoConnection();

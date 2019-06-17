@@ -1,6 +1,8 @@
 <?php
-include_once ("../Models/DBUtils.php");
+$title = "prueba";
+include_once("Layouts/header.php");
 $query = "SELECT * FROM customers";
 $dbUtils = new DBUtils();
-$data = $dbUtils->getData($query);
+$data = $dbUtils->getDatas($query);
 var_dump($data);
+include_once("Layouts/footer.php"); 

@@ -1,10 +1,8 @@
-
 <?php
 $title = "login";
 include_once("Layouts/header.php");
-include_once("Layouts/footer.php");
 ?>
-<body>
+
 <div class="container">
     <div class="row justify-content-center align-items-center" style="height:50vh">
         <div class="col-4">
@@ -24,3 +22,5 @@ include_once("Layouts/footer.php");
         </div>
     </div>
 </div>
+
+<?php include_once("Layouts/footer.php"); ?>

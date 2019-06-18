@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `cus_address1` varchar(255) NOT NULL,
   `cus_address2` varchar(255) NOT NULL,
   PRIMARY KEY (`cus_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla jor_carp.customers: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
@@ -37,13 +37,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) NOT NULL,
   `user_mail` varchar(255) NOT NULL,
+  `user_password` varchar(255) NOT NULL,
   `user_status` int(11) NOT NULL DEFAULT '0' COMMENT '0 = Blocked; 1 = Validated',
   `user_privilege` int(11) NOT NULL DEFAULT '0' COMMENT '0 = User; 1 = Admin',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Volcando datos para la tabla jor_carp.users: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+REPLACE INTO `users` (`user_id`, `user_name`, `user_mail`, `user_password`, `user_status`, `user_privilege`) VALUES
+	(1, 'José', 'jorcarp@webmaster.com', '21232f297a57a5a743894a0e4a801fc3', 1, 1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

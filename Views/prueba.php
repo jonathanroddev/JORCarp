@@ -1,5 +1,5 @@
 <?php
-$title = "prueba";
+$title = "Prueba";
 include_once("Layouts/header.php");
 $query = "SELECT * FROM customers";
 $dbUtils = new DBUtils();

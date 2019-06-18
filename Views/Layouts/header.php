@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <?php
+include_once ("../Controllers/MainController.php");
 include_once("../Models/DBUtils.php");
 ?>
 <head>
@@ -16,11 +17,11 @@ include_once("../Models/DBUtils.php");
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <p class="font-weight-bolder font-italic"><a class="navbar-brand" href="#">Carpintería José Octavio</a></p>
+    <?php //if(isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"]==1){ ?>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <?php //if(isset($_SESSION["userStatus"]) && $_SESSION["userStatus"]==1){ ?>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
             <li class="nav-item active">

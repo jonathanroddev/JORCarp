@@ -19,8 +19,7 @@ class DBUtils
                 $_SESSION["userPrivileges"] = 1;
                 header("Location:adminInterface.php");
                 exit();
-            }
-            else{
+            } else {
                 $_POST["errorLogin"] = true;
             }
         } catch (Exception $e) {
@@ -33,6 +32,45 @@ class DBUtils
     {
         $_SESSION["userStatus"] = 0;
         $_SESSION["userPrivileges"] = 0;
+    }
+
+    function importCustomersToDB()
+    {
+        $customers = $this->exportCustomersFromExcel();
+
+    }
+
+    function exportCustomersFromExcel()
+    {
+        require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        $objPHPExcel = $objReader->load("../Files/clientes.xlsx");
+        $objWorksheet = $objPHPExcel->getActiveSheet();
+
+        $highestRow = $objWorksheet->getHighestRow();
+        $highestColumn = $objWorksheet->getHighestColumn();
+
+        $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+        $rows = array();
+        for ($row = 2; $row <= $highestRow; ++$row) {
+            for ($col = 0; $col <= $highestColumnIndex; ++$col) {
+                $rows[$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+                array_push($rows,$rows[$col]);
+            }
+            //echo "<pre>";
+            echo "Apartamento: " . ($rows[0])." || ";
+            echo "Propietario: " . ($rows[1])." || ";
+            echo "NIF: " . ($rows[2])." || ";
+            echo "Dirección: " . ($rows[3])." || ";
+            echo "<br>";
+            echo "Apartamento: " . ($rows[5])." || ";
+            echo "Propietario: " . ($rows[6])." || ";
+            echo "NIF: " . ($rows[7])." || ";
+            echo "Dirección: " . ($rows[8])." || ";
+            echo "<br>";
+            //echo "</pre>";
+        }
+        return $rows;
     }
 
     function getDatas($sql)

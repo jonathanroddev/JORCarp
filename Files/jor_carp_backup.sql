@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Volcando datos para la tabla jor_carp.users: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 REPLACE INTO `users` (`user_id`, `user_name`, `user_mail`, `user_password`, `user_status`, `user_privilege`) VALUES
-	(1, 'José', 'jorcarp@webmaster.com', '21232f297a57a5a743894a0e4a801fc3', 1, 1);
+	(1, 'José', 'jorcarp@webmaster.com', '662eaa47199461d01a623884080934ab', 1, 1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

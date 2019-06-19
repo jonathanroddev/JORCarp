@@ -3,7 +3,8 @@ $title = "Prueba";
 include_once("Layouts/header.php");
 
 $dbUtils = new DBUtils();
-$dbUtils->exportCustomersFromExcel();
+//$dbUtils->exportCustomersFromExcel();
+$dbUtils->importCustomersToDB();
 
 
 include_once("Layouts/footer.php");

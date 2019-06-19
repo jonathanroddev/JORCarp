@@ -37,11 +37,14 @@ class DBUtils
     function importCustomersToDB()
     {
         $customers = $this->exportCustomersFromExcel();
-
+        echo "<pre>";
+        var_dump($customers);
+        echo "</pre>";
     }
 
     function exportCustomersFromExcel()
     {
+        include_once 'Customer.php';
         require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
         $objReader = PHPExcel_IOFactory::createReader('Excel2007');
         $objPHPExcel = $objReader->load("../Files/clientes.xlsx");
@@ -52,25 +55,22 @@ class DBUtils
 
         $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
         $rows = array();
+        $customers = array();
         for ($row = 2; $row <= $highestRow; ++$row) {
             for ($col = 0; $col <= $highestColumnIndex; ++$col) {
                 $rows[$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
-                array_push($rows,$rows[$col]);
+                array_push($rows, $rows[$col]);
             }
-            //echo "<pre>";
-            echo "Apartamento: " . ($rows[0])." || ";
-            echo "Propietario: " . ($rows[1])." || ";
-            echo "NIF: " . ($rows[2])." || ";
-            echo "Dirección: " . ($rows[3])." || ";
-            echo "<br>";
-            echo "Apartamento: " . ($rows[5])." || ";
-            echo "Propietario: " . ($rows[6])." || ";
-            echo "NIF: " . ($rows[7])." || ";
-            echo "Dirección: " . ($rows[8])." || ";
-            echo "<br>";
-            //echo "</pre>";
+            $customer = new Customer();               $customer2 = new Customer();
+
+            $customer->setName($rows[1]);             $customer2->setName($rows[6]);
+            $customer->setNif($rows[2]);              $customer2->setNif($rows[7]);
+            $customer->setAddress1($rows[0]);         $customer2->setAddress1($rows[5]);
+            $customer->setAddress2($rows[3]);         $customer2->setAddress2($rows[8]);
+
+            array_push($customers, $customer, $customer2);
         }
-        return $rows;
+        return $customers;
     }
 
     function getDatas($sql)

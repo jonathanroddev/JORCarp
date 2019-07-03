@@ -9,20 +9,10 @@ class InvoicesUtils
         $uploadCustomersFile = $uploadTo . basename($_FILES['customersFile']['name']);
         //Controlar que sea el Excel {
         move_uploaded_file($_FILES['customersFile']['tmp_name'], $uploadCustomersFile);
-        $_POST["fileUploaded"] = true;
-        $_POST["customersData"] = $this->exportCustomersFromExcel($uploadCustomersFile);
+        $_SESSION["fileUploaded"] = true;
+        $_SESSION["customersData"] = $this->exportCustomersFromExcel($uploadCustomersFile);
         //}
 
-    }
-
-    function importCustomers()
-    {
-        $customers = $this->exportCustomersFromExcel();
-        foreach ($customers as $k => $v) {
-            echo "<pre>";
-            var_dump($v);
-            echo "</pre>";
-        }
     }
 
     function exportCustomersFromExcel($customersFileName)

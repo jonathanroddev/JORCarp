@@ -32,6 +32,8 @@ class DBUtils
     {
         $_SESSION["userStatus"] = 0;
         $_SESSION["userPrivileges"] = 0;
+        $_SESSION["fileUploaded"] = false;
+        $_SESSION["customersData"] = null;
     }
 
     function getDatas($sql)

@@ -17,7 +17,7 @@ class DBUtils
             if ($result == 1) {
                 $_SESSION["userStatus"] = 1;
                 $_SESSION["userPrivileges"] = 1;
-                header("Location:adminInterface.php");
+                header("Location:contabilidad.php");
                 exit();
             } else {
                 $_POST["errorLogin"] = true;
@@ -58,7 +58,7 @@ class DBUtils
         $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
         $rows = array();
         $customers = array();
-        for ($row = 2; $row <= $highestRow; ++$row) {
+        for ($row = 1; $row <= $highestRow; ++$row) {
             for ($col = 0; $col <= $highestColumnIndex; ++$col) {
                 $rows[$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
                 array_push($rows, $rows[$col]);

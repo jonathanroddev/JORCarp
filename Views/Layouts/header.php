@@ -24,10 +24,7 @@ include_once("../Models/DBUtils.php");
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/Views/adminInterface.php"><i class="material-icons">home</i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Importar Clientes</a>
+                    <a class="nav-link" href="/Views/contabilidad.php"><i class="material-icons">home</i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Facturas</a>

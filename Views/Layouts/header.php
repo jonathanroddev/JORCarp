@@ -27,7 +27,7 @@ include_once("../Models/DBUtils.php");
                     <a class="nav-link" href="/Views/contabilidad.php"><i class="material-icons">home</i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Facturas</a>
+                    <a class="nav-link" href="/Views/facturas.php">Facturas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Compras</a>

@@ -16,16 +16,18 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                onclick="document.getElementById('customersFile').click();" class="btn btn-primary"/>
                         <br>
                     </form>
-                <?php } else { ?>
-                    <?php $customers = $_SESSION["customersData"];
+                <?php } else {
+                    $dbUtils = new DBUtils();
+                    $sql = "SELECT * FROM customers";
+                    $customers = $dbUtils->getDatas($sql);
                     for ($i = 0; $i < sizeof($customers); $i++) {
                         $customer = $customers[$i] ?>
                         <button type="button" class="btn btn-primary btn-block"
-                                onclick="location.href='cliente.php?id=<?php echo($i); ?>'">
-                            <?php echo($customer["address1"]); ?>
+                                onclick="location.href='cliente.php?idcliente=<?php echo($customer["cus_id"]); ?>'">
+                            <?php echo($customer["cus_address1"]); ?>
                         </button>
-                    <?php } ?>
-                <?php } ?>
+                    <?php }
+                } ?>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@
 session_start();
 include_once("../Controllers/MainController.php");
 include_once("../Models/DBUtils.php");
+include_once("../Models/InvoicesUtils.php");
 ?>
 <head>
     <title><?php echo $title ?></title>
@@ -14,8 +15,15 @@ include_once("../Models/DBUtils.php");
           rel="stylesheet">
 </head>
 <body>
+<script type="text/javascript">
+    {
+        if (history.forward(1))
+            location.replace(history.forward(1))
+    }
+</script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <p class="font-weight-bolder font-italic"><a class="navbar-brand" href="/Views/contabilidad.php">Carpintería José Octavio</a></p>
+    <p class="font-weight-bolder font-italic"><a class="navbar-brand" href="/Views/contabilidad.php">Carpintería José
+            Octavio</a></p>
     <?php if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">

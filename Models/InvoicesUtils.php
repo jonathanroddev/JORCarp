@@ -5,12 +5,15 @@ class InvoicesUtils
 
     function uploadCustomersData()
     {
+        include_once "DBUtils.php";
+        $dbUtils = new DBUtils();
         $uploadTo = '../Files/';
         $uploadCustomersFile = $uploadTo . basename($_FILES['customersFile']['name']);
         move_uploaded_file($_FILES['customersFile']['tmp_name'], $uploadCustomersFile);
-        $_SESSION["fileUploaded"] = true;
         $_SESSION["fileDirectory"] = $uploadCustomersFile;
-        $_SESSION["customersData"] = $this->exportCustomersFromExcel($uploadCustomersFile);
+        $customers = $this->exportCustomersFromExcel($uploadCustomersFile);
+        $dbUtils->insertCustomersDatas($customers);
+        $_SESSION["fileUploaded"] = true;
     }
 
     function exportCustomersFromExcel($customersFileName)

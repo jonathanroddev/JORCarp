@@ -13,4 +13,12 @@ if(isset($_POST["uploadFile"])){
     $invUtils = new InvoicesUtils();
     $invUtils->uploadCustomersData();
 }
+if(isset($_POST["invoice"])){
+    if(isset($_GET["idcliente"])){
+        if(isset($_POST["descriptions"])){
+            echo $_GET["idcliente"];
+            echo $_POST["descriptions"][0];
+        }
+    }
+}
 ?>

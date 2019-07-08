@@ -33,8 +33,28 @@ class DBUtils
         $_SESSION["userStatus"] = 0;
         $_SESSION["userPrivileges"] = 0;
         $_SESSION["fileUploaded"] = false;
-        $_SESSION["customersData"] = null;
         if(isset($_SESSION["fileDirectory"])) unlink($_SESSION["fileDirectory"]);
+        $this->deleteCustomersTable();
+    }
+
+    function insertCustomersDatas($customers)
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            for($i=0;$i<sizeof($customers);$i++){
+                $name = $customers[$i]["name"];
+                $nif = $customers[$i]["nif"];
+                $address1 = $customers[$i]["address1"];
+                $address2 = $customers[$i]["address2"];
+                $sql = "INSERT INTO customers (cus_name,cus_nif,cus_address1,cus_address2) VALUES ('".$name."','".$nif."','".$address1."','".$address2."')";
+                $prepareQuery = $pdoConnection->prepare($sql);
+                $prepareQuery->execute();
+            }
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
     }
 
     function getDatas($sql)
@@ -44,11 +64,25 @@ class DBUtils
         try {
             $prepareQuery = $pdoConnection->prepare($sql);
             $prepareQuery->execute();
-            $result = $prepareQuery->fetch(PDO::FETCH_ASSOC);
+            $result = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             echo '<hr>Reading Error: (' . $e->getMessage() . ')';
             return false;
         }
         return $result;
+    }
+
+    function deleteCustomersTable()
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $sql= "DELETE FROM customers";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
     }
 }

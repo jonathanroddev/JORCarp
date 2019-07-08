@@ -34,6 +34,7 @@ class DBUtils
         $_SESSION["userPrivileges"] = 0;
         $_SESSION["fileUploaded"] = false;
         $_SESSION["customersData"] = null;
+        if(isset($_SESSION["fileDirectory"])) unlink($_SESSION["fileDirectory"]);
     }
 
     function getDatas($sql)

@@ -7,12 +7,10 @@ class InvoicesUtils
     {
         $uploadTo = '../Files/';
         $uploadCustomersFile = $uploadTo . basename($_FILES['customersFile']['name']);
-        //Controlar que sea el Excel {
         move_uploaded_file($_FILES['customersFile']['tmp_name'], $uploadCustomersFile);
         $_SESSION["fileUploaded"] = true;
+        $_SESSION["fileDirectory"] = $uploadCustomersFile;
         $_SESSION["customersData"] = $this->exportCustomersFromExcel($uploadCustomersFile);
-        //}
-
     }
 
     function exportCustomersFromExcel($customersFileName)

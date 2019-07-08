@@ -15,7 +15,6 @@ class InvoicesUtils
 
     function exportCustomersFromExcel($customersFileName)
     {
-        include_once 'Customer.php';
         require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
         $objReader = PHPExcel_IOFactory::createReader('Excel2007');
         $objPHPExcel = $objReader->load($customersFileName);
@@ -32,20 +31,12 @@ class InvoicesUtils
                 $rows[$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
                 array_push($rows, $rows[$col]);
             }
-            $customer = new Customer();
-            $customer2 = new Customer();
 
-            $customer->setName($rows[1]);
-            $customer2->setName($rows[6]);
-            $customer->setNif($rows[2]);
-            $customer2->setNif($rows[7]);
-            $customer->setAddress1($rows[0]);
-            $customer2->setAddress1($rows[5]);
-            $customer->setAddress2($rows[3]);
-            $customer2->setAddress2($rows[8]);
+            $customer = ["name"=>$rows[1],"nif"=>$rows[2],"address1"=>$rows[0],"address2"=>$rows[3]];
+            $customer2 = ["name"=>$rows[6],"nif"=>$rows[7],"address1"=>$rows[5],"address2"=>$rows[8]];
 
-            if ($customer->getNif() != null) array_push($customers, $customer);
-            if ($customer2->getNif() != null) array_push($customers, $customer2);
+            if ($customer["nif"] != null) array_push($customers, $customer);
+            if ($customer2["nif"] != null)  array_push($customers, $customer2);
         }
         $customers = array_filter($customers);
         return $customers;

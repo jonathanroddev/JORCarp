@@ -1,5 +1,14 @@
 </div>
 </div>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="height:50vh">
+        <footer>
+            <small>&copy; Copyright 2019, Jonathan Rodríguez Mendoza</small>
+        </footer>
+    </div>
+</div>
+
 <script src="../../Views/Scripts/facturas.js"></script>
 <!-- Link Export bootstrap -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

@@ -38,12 +38,24 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                         <tbody>
                         <?php for($i=1;$i<6;$i++){ ?>
                         <tr>
-                            <th scope="row"><input type="text" class="form-control" id="quantity<?php echo $i ?>" name="quantities[]" oninput="calculateAmount(<?php echo $i ?>)"></th>
+                            <td scope="row"><input type="text" class="form-control" id="quantity<?php echo $i ?>" name="quantities[]" oninput="calculateAmount(<?php echo $i ?>)"></td>
                             <td><input type="text" class="form-control" id="description<?php echo $i ?>" name="descriptions[]"></td>
                             <td><input type="text" class="form-control" id="unitprice<?php echo $i ?>" name="unitprices[]" oninput="calculateAmount(<?php echo $i ?>)"></td>
-                            <td><input type="text" class="form-control" id="amount<?php echo $i ?>" name="amounts[]"></td>
+                            <td><input type="text" class="form-control" id="amount<?php echo $i ?>" name="amounts[]" onkeyup="calculateTotal()"></td>
                         </tr>
                         <?php } ?>
+                        <tr>
+                            <td colspan="3" scope="row" class="text-right">Total Bruto</td>
+                            <td><input type="text" class="form-control" id="grosstotal" name="grosstotal" readonly></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" scope="row" class="text-right">IGIC 6,5%</td>
+                            <td><input type="text" class="form-control" id="igic" name="igic" readonly></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" scope="row" class="text-right">Total</td>
+                            <td><input type="text" class="form-control" id="total" name="total" readonly></td>
+                        </tr>
                         </tbody>
                     </table>
                     <br>

@@ -18,18 +18,16 @@ USE `jor_carp`;
 
 -- Volcando estructura para tabla jor_carp.customers
 CREATE TABLE IF NOT EXISTS `customers` (
-  `cus_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cus_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `cus_name` varchar(255) NOT NULL,
   `cus_nif` varchar(255) NOT NULL,
   `cus_address1` varchar(255) NOT NULL,
   `cus_address2` varchar(255) NOT NULL,
   PRIMARY KEY (`cus_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla jor_carp.customers: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla jor_carp.customers: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-REPLACE INTO `customers` (`cus_id`, `cus_name`, `cus_nif`, `cus_address1`, `cus_address2`) VALUES
-	(1, 'Antonio', '123456789P', 'C/Prueba', 'Las Palmas');
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jor_carp.users

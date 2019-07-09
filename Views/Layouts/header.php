@@ -15,12 +15,6 @@ include_once("../Models/InvoicesUtils.php");
           rel="stylesheet">
 </head>
 <body>
-<script type="text/javascript">
-    {
-        if (history.forward(1))
-            location.replace(history.forward(1))
-    }
-</script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <p class="font-weight-bolder font-italic"><a class="navbar-brand" href="/Views/contabilidad.php">Carpintería José
             Octavio</a></p>

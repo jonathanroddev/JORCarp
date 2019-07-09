@@ -35,5 +35,6 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
     <div class="alert alert-primary" role="alert">
         Acceso Denegado. Por favor, ingresa un usuario y contraseña válidos pulsando <a href="login.php">aquí</a>
     </div>
-<?php }
-include_once("Layouts/footer.php"); ?>
+<?php } ?>
+    <script src="../../Views/Scripts/facturas.js"></script>
+<?php include_once("Layouts/footer.php"); ?>

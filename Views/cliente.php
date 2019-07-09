@@ -8,7 +8,7 @@ $title = "Cliente: " . $customer[0]["cus_address1"];
 include_once("Layouts/header.php");
 if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
     <div class="col-8">
-        <div class="card bg-light mb-3 text-center">
+        <div class="card bg-light mb-3 text-center" style="margin-top: 20px">
             <div class="card-header text-white bg-info"><strong><?php echo $customer[0]["cus_address1"] ?></strong>
             </div>
             <div class="card-body">
@@ -36,12 +36,14 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                         </tr>
                         </thead>
                         <tbody>
+                        <?php for($i=1;$i<6;$i++){ ?>
                         <tr>
-                            <th scope="row"><input type="text" class="form-control" id="quantity1" name="quantities[]"></th>
-                            <td><input type="text" class="form-control" id="description1" name="descriptions[]"></td>
-                            <td><input type="text" class="form-control" id="unitprice1" name="unitprices[]"></td>
-                            <td><input type="text" class="form-control" id="amount1" name="amounts[]"></td>
+                            <th scope="row"><input type="text" class="form-control" id="quantity<?php echo $i ?>" name="quantities[]" oninput="calculateAmount(<?php echo $i ?>)"></th>
+                            <td><input type="text" class="form-control" id="description<?php echo $i ?>" name="descriptions[]"></td>
+                            <td><input type="text" class="form-control" id="unitprice<?php echo $i ?>" name="unitprices[]" oninput="calculateAmount(<?php echo $i ?>)"></td>
+                            <td><input type="text" class="form-control" id="amount<?php echo $i ?>" name="amounts[]"></td>
                         </tr>
+                        <?php } ?>
                         </tbody>
                     </table>
                     <br>

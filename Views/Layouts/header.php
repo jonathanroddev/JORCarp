@@ -15,9 +15,11 @@ include_once("../Models/InvoicesUtils.php");
           rel="stylesheet">
 </head>
 <body>
+<header>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <p class="font-weight-bolder font-italic"><a class="navbar-brand" href="/Views/contabilidad.php">Carpintería José
             Octavio</a></p>
+    <p class="font-weight-bolder font-italic text-right navbar-brand"><small>&copy;Jonathan Rodríguez</small></p>
     <?php if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,5 +54,7 @@ include_once("../Models/InvoicesUtils.php");
     <?php } ?>
 </nav>
 
+</header>
+<main>
 <div class="container">
     <div class="row justify-content-center align-items-center" style="height:50vh">

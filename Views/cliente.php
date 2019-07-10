@@ -23,46 +23,53 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
             </div>
         </div>
     </div>
-    <div class="col-8">
+    <div class="col-8" style="padding-bottom: 20px">
         <div class="text-center">
-                <form method="POST" action="">
-                    <table class="table table-hover table-primary">
-                        <thead>
-                        <tr>
-                            <th scope="col" style="width:7%">Cantidad</th>
-                            <th scope="col" style="width:60%">Descripción</th>
-                            <th scope="col" style="width:15%">P. Unidad</th>
-                            <th scope="col" style="width:23%">Importe</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php for($i=1;$i<6;$i++){ ?>
-                        <tr>
-                            <td scope="row"><input type="text" class="form-control" id="quantity<?php echo $i ?>" name="quantities[]" oninput="calculateAmount(<?php echo $i ?>)"></td>
-                            <td><input type="text" class="form-control" id="description<?php echo $i ?>" name="descriptions[]"></td>
-                            <td><input type="text" class="form-control" id="unitprice<?php echo $i ?>" name="unitprices[]" oninput="calculateAmount(<?php echo $i ?>)"></td>
-                            <td><input type="text" class="form-control" id="amount<?php echo $i ?>" name="amounts[]" onkeyup="calculateTotal()"></td>
-                        </tr>
-                        <?php } ?>
-                        <tr>
-                            <td colspan="3" scope="row" class="text-right">Total Bruto</td>
-                            <td><input type="text" class="form-control" id="grosstotal" name="grosstotal" readonly></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" scope="row" class="text-right">IGIC 6,5%</td>
-                            <td><input type="text" class="form-control" id="igic" name="igic" readonly></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" scope="row" class="text-right">Total</td>
-                            <td><input type="text" class="form-control" id="total" name="total" readonly></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <br>
-                    <input type="hidden" name="invoice">
-                    <button type="button" class="btn btn-primary" onclick="location.href='facturas.php'">Atrás</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </form>
+            <button type="button" class="btn btn-primary" onclick="createNotion()">Añadir otro concepto</button>
+        </div>
+    </div>
+    <div class="col-8" style="padding-bottom: 20px">
+        <div class="text-center">
+            <form method="POST" action="">
+                <table class="table table-hover table-primary" id="invoice">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="width:7%">Cantidad</th>
+                        <th scope="col" style="width:60%">Descripción</th>
+                        <th scope="col" style="width:15%">P. Unidad</th>
+                        <th scope="col" style="width:23%">Importe</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td scope="row"><input type="text" class="form-control" id="quantity1"
+                                               name="quantities[]" oninput="calculateAmount(1)"></td>
+                        <td><input type="text" class="form-control" id="description1"
+                                   name="descriptions[]"></td>
+                        <td><input type="text" class="form-control" id="unitprice1"
+                                   name="unitprices[]" oninput="calculateAmount(1)"></td>
+                        <td><input type="text" class="form-control" id="amount1" name="amounts[]"
+                                   onkeyup="calculateTotal(1)"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" scope="row" class="text-right">Total Bruto</td>
+                        <td><input type="text" class="form-control" id="grosstotal" name="grosstotal" readonly></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" scope="row" class="text-right">IGIC 6,5%</td>
+                        <td><input type="text" class="form-control" id="igic" name="igic" readonly></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" scope="row" class="text-right">Total</td>
+                        <td><input type="text" class="form-control" id="total" name="total" readonly></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <input type="hidden" name="invoice">
+                <button type="button" class="btn btn-primary" onclick="location.href='facturas.php'">Atrás</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
         </div>
     </div>
 <?php } else { ?>

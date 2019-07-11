@@ -36,6 +36,7 @@ class DBUtils
         if (isset($_SESSION["fileDirectory"])) unlink($_SESSION["fileDirectory"]);
         $_SESSION["fileDirectory"] = null;
         $this->deleteCustomersTable();
+        $this->deleteInvoicesTable();
     }
 
     function insertCustomersDatas($customers)
@@ -82,7 +83,9 @@ class DBUtils
         $dbConn = new DBConnection();
         $pdoConnection = $dbConn->PdoConnection();
         try {
-            $sql = "TRUNCATE TABLE customers";
+            $sql = "SET FOREIGN_KEY_CHECKS = 0; 
+            TRUNCATE table customers; 
+            SET FOREIGN_KEY_CHECKS = 1;";
             $prepareQuery = $pdoConnection->prepare($sql);
             $prepareQuery->execute();
         } catch (Exception $e) {
@@ -91,8 +94,33 @@ class DBUtils
         }
     }
 
-    function insertInvoiceData(){
+    function deleteInvoicesTable()
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $sql = " TRUNCATE table invoices;";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+    }
 
+    function insertInvoiceData($idCustomer, $invoice)
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        $invoiceSerialized = serialize($invoice);
+        try {
+                $sql = "INSERT INTO invoices (cus_id,inv_obj) VALUES ('" . $idCustomer . "','" . $invoiceSerialized . "')";
+                $prepareQuery = $pdoConnection->prepare($sql);
+                $prepareQuery->execute();
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
     }
 
 }

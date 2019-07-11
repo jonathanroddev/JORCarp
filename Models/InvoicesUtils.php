@@ -1,11 +1,9 @@
 <?php
-
+include_once "DBUtils.php";
 class InvoicesUtils
 {
-
     function uploadCustomersData()
     {
-        include_once "DBUtils.php";
         $dbUtils = new DBUtils();
         $uploadTo = '../Files/';
         $uploadCustomersFile = $uploadTo . basename($_FILES['customersFile']['name']);
@@ -46,7 +44,7 @@ class InvoicesUtils
     }
 
     function uploadInvoiceData(){
-        if(isset($_GET["idcliente"])){
+            if(isset($_GET["idcliente"])) $idCustomer = $_GET["idcliente"];
             if(isset($_POST["quantities"])) $quantities = $_POST["quantities"];
             if(isset($_POST["descriptions"])) $descriptions = $_POST["descriptions"];
             if(isset($_POST["unitprices"])) $unitPrices = $_POST["unitprices"];
@@ -68,9 +66,10 @@ class InvoicesUtils
                 $totals = ["grossTotal"=>$grossTotal,"igic"=>$igic,"total"=>$total];
                 $invoice["totals"]=$totals;
             }
-            echo "<pre>";
+            $dbUtils = new DBUtils();
+            $dbUtils->insertInvoiceData($idCustomer,$invoice);
+            /*echo "<pre>";
             var_dump($invoice);
-            echo "</pre>";
+            echo "</pre>";*/
         }
-    }
 }

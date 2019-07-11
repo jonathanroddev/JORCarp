@@ -1,7 +1,6 @@
 let i = 2;
 function createNotion() {
     let table = document.getElementById("invoice");
-    console.log(table.firstChild);
     let row = table.insertRow(i);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
@@ -27,12 +26,13 @@ function calculateTotal() {
     let igicTotal = document.getElementById("igic");
     let total = document.getElementById("total");
     let amounts = document.getElementsByName("amounts[]");
-    let valor = 0;
+    let gross = 0;
     for(let i=0;i<amounts.length;i++){
-        valor += +(amounts[i].value);
+        gross += +(amounts[i].value);
     }
-    grossTotal.value = valor;
-    igicAmount = parseFloat(valor * igicPercentage).toFixed(2);
+    grossTotal.value = gross;
+    igicAmount = parseFloat(gross * igicPercentage).toFixed(2);
     igicTotal.value = igicAmount;
-    total.value = valor + igicAmount;
+    total.value = (parseFloat(gross) + parseFloat(igicAmount)).toFixed(2);
 }
+

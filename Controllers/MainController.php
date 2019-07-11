@@ -14,15 +14,7 @@ if(isset($_POST["uploadFile"])){
     $invUtils->uploadCustomersData();
 }
 if(isset($_POST["invoice"])){
-    if(isset($_GET["idcliente"])){
-        if(isset($_POST["quantities"])) $quantities = $_POST["quantities"];
-        if(isset($_POST["descriptions"])) $descriptions = $_POST["descriptions"];
-        if(isset($_POST["unitprices"])) $unitPrices = $_POST["unitprices"];
-        if(isset($_POST["amounts"])) $amounts = $_POST["amounts"];
-        var_dump($quantities);
-        var_dump($descriptions);
-        var_dump($unitPrices);
-        var_dump($amounts);
-    }
+    $invUtils = new InvoicesUtils();
+    $invUtils->uploadInvoiceData();
 }
 ?>

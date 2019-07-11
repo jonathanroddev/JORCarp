@@ -45,4 +45,32 @@ class InvoicesUtils
         return $customers;
     }
 
+    function uploadInvoiceData(){
+        if(isset($_GET["idcliente"])){
+            if(isset($_POST["quantities"])) $quantities = $_POST["quantities"];
+            if(isset($_POST["descriptions"])) $descriptions = $_POST["descriptions"];
+            if(isset($_POST["unitprices"])) $unitPrices = $_POST["unitprices"];
+            if(isset($_POST["amounts"])) $amounts = $_POST["amounts"];
+            if(isset($_POST["grosstotal"])) $grossTotal = $_POST["grosstotal"];
+            if(isset($_POST["igic"])) $igic = $_POST["igic"];
+            if(isset($_POST["total"])) $total = $_POST["total"];
+            $notion = array();
+            $totals = array();
+            $invoice = array();
+            for ($i=0;$i<sizeof($amounts);$i++){
+                if($amounts[$i]!=""&&$amounts[$i]>0){
+                    $notion = ["quantity"=>$quantities[$i],"description"=>$descriptions[$i],
+                        "unitPrice"=>$unitPrices[$i],"amount"=>$amounts[$i]];
+                    $invoice["notions"][$i]=$notion;
+                }
+            }
+            if($grossTotal!=""&&$grossTotal>0){
+                $totals = ["grossTotal"=>$grossTotal,"igic"=>$igic,"total"=>$total];
+                $invoice["totals"]=$totals;
+            }
+            echo "<pre>";
+            var_dump($invoice);
+            echo "</pre>";
+        }
+    }
 }

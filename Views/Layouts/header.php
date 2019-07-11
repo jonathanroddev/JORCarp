@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <?php
 session_start();
 include_once("../Controllers/MainController.php");

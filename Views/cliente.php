@@ -42,14 +42,10 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                     </thead>
                     <tbody>
                     <tr>
-                        <td scope="row"><input type="text" class="form-control" id="quantity1"
-                                               name="quantities[]" oninput="calculateAmount(1)"></td>
-                        <td><input type="text" class="form-control" id="description1"
-                                   name="descriptions[]"></td>
-                        <td><input type="text" class="form-control" id="unitprice1"
-                                   name="unitprices[]" oninput="calculateAmount(1)"></td>
-                        <td><input type="text" class="form-control" id="amount1" name="amounts[]"
-                                   onkeyup="calculateTotal(1)"></td>
+                        <td scope="row"><input type="number" class="form-control" id="quantity1" name="quantities[]" oninput="calculateAmount(1)"></td>
+                        <td><input type="text" class="form-control" id="description1" name="descriptions[]"></td>
+                        <td><input type="number" class="form-control" id="unitprice1" name="unitprices[]" oninput="calculateAmount(1)" step=".01"></td>
+                        <td><input type="number" class="form-control" id="amount1" name="amounts[]" onkeyup="calculateTotal(1)" step=".01"></td>
                     </tr>
                     <tr>
                         <td colspan="3" scope="row" class="text-right">Total Bruto</td>

@@ -33,7 +33,7 @@ class DBUtils
         $_SESSION["userStatus"] = 0;
         $_SESSION["userPrivileges"] = 0;
         $_SESSION["fileUploaded"] = false;
-        if(isset($_SESSION["fileDirectory"])) unlink($_SESSION["fileDirectory"]);
+        if (isset($_SESSION["fileDirectory"])) unlink($_SESSION["fileDirectory"]);
         $_SESSION["fileDirectory"] = null;
         $this->deleteCustomersTable();
     }
@@ -45,12 +45,12 @@ class DBUtils
         try {
             $sqlVerification = "SELECT * FROM customers";
             $customersData = $this->getDatas($sqlVerification);
-            if($customersData==null) {
-            for($i=0;$i<sizeof($customers);$i++){
-                $name = $customers[$i]["name"];
-                $nif = $customers[$i]["nif"];
-                $address1 = $customers[$i]["address1"];
-                $address2 = $customers[$i]["address2"];
+            if ($customersData == null) {
+                for ($i = 0; $i < sizeof($customers); $i++) {
+                    $name = $customers[$i]["name"];
+                    $nif = $customers[$i]["nif"];
+                    $address1 = $customers[$i]["address1"];
+                    $address2 = $customers[$i]["address2"];
                     $sql = "INSERT INTO customers (cus_name,cus_nif,cus_address1,cus_address2) VALUES ('" . $name . "','" . $nif . "','" . $address1 . "','" . $address2 . "')";
                     $prepareQuery = $pdoConnection->prepare($sql);
                     $prepareQuery->execute();
@@ -82,7 +82,7 @@ class DBUtils
         $dbConn = new DBConnection();
         $pdoConnection = $dbConn->PdoConnection();
         try {
-            $sql= "TRUNCATE TABLE customers";
+            $sql = "TRUNCATE TABLE customers";
             $prepareQuery = $pdoConnection->prepare($sql);
             $prepareQuery->execute();
         } catch (Exception $e) {
@@ -90,4 +90,9 @@ class DBUtils
             return false;
         }
     }
+
+    function insertInvoiceData(){
+
+    }
+
 }

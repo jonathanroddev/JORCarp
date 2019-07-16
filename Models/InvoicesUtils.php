@@ -68,8 +68,6 @@ class InvoicesUtils
             }
             $dbUtils = new DBUtils();
             $dbUtils->insertInvoiceData($idCustomer,$invoice);
-            /*echo "<pre>";
-            var_dump($invoice);
-            echo "</pre>";*/
+        header("Location:facturas.php");
         }
 }

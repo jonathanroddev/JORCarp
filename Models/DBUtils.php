@@ -94,6 +94,21 @@ class DBUtils
         }
     }
 
+    function insertInvoiceData($idCustomer, $invoice)
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        $invoiceSerialized = serialize($invoice);
+        try {
+            $sql = "INSERT INTO invoices (cus_id,inv_obj) VALUES ('" . $idCustomer . "','" . $invoiceSerialized . "')";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+    }
+
     function deleteInvoicesTable()
     {
         $dbConn = new DBConnection();
@@ -108,19 +123,5 @@ class DBUtils
         }
     }
 
-    function insertInvoiceData($idCustomer, $invoice)
-    {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
-        $invoiceSerialized = serialize($invoice);
-        try {
-                $sql = "INSERT INTO invoices (cus_id,inv_obj) VALUES ('" . $idCustomer . "','" . $invoiceSerialized . "')";
-                $prepareQuery = $pdoConnection->prepare($sql);
-                $prepareQuery->execute();
-        } catch (Exception $e) {
-            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
-            return false;
-        }
-    }
 
 }

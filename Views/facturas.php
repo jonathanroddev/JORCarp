@@ -20,9 +20,16 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                     $dbUtils = new DBUtils();
                     $sql = "SELECT * FROM customers";
                     $customers = $dbUtils->getDatas($sql);
+                    $sql2 = "SELECT cus_id FROM invoices";
+                    $invoices = $dbUtils->getDatas($sql2);
                     for ($i = 0; $i < sizeof($customers); $i++) {
-                        $customer = $customers[$i] ?>
-                        <button type="button" class="btn btn-primary btn-block"
+                        $customer = $customers[$i];
+                        $styleButton = "primary";
+                        for ($j = 0; $j < sizeof($invoices); $j++) {
+                            if ($invoices[$j]["cus_id"] == $customer["cus_id"]) $styleButton = "success";
+                        }
+                        ?>
+                        <button type="button" class="btn btn-<?php echo $styleButton ?> btn-block"
                                 onclick="location.href='cliente.php?idcliente=<?php echo($customer["cus_id"]); ?>'">
                             <?php echo($customer["cus_address1"]); ?>
                         </button>

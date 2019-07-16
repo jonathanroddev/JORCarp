@@ -52,8 +52,6 @@ class InvoicesUtils
             if(isset($_POST["grosstotal"])) $grossTotal = $_POST["grosstotal"];
             if(isset($_POST["igic"])) $igic = $_POST["igic"];
             if(isset($_POST["total"])) $total = $_POST["total"];
-            $notion = array();
-            $totals = array();
             $invoice = array();
             for ($i=0;$i<sizeof($amounts);$i++){
                 if($amounts[$i]!=""&&$amounts[$i]>0){

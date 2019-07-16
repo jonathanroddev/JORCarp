@@ -1,5 +1,5 @@
-let i = 2;
-function createNotion() {
+//let i = 2;
+function createNotion(i) {
     let table = document.getElementById("invoice");
     let row = table.insertRow(i);
     let cell1 = row.insertCell(0);

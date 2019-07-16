@@ -98,14 +98,17 @@ class DBUtils
     {
         $dbConn = new DBConnection();
         $pdoConnection = $dbConn->PdoConnection();
-        $invoiceSerialized = serialize($invoice);
-        try {
-            $sql = "INSERT INTO invoices (cus_id,inv_obj) VALUES ('" . $idCustomer . "','" . $invoiceSerialized . "')";
-            $prepareQuery = $pdoConnection->prepare($sql);
-            $prepareQuery->execute();
-        } catch (Exception $e) {
-            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
-            return false;
+        if ($invoice["notions"] > 0) {
+            $invoiceSerialized = serialize($invoice);
+            try {
+                $sql = "DELETE FROM invoices WHERE cus_id = '" . $idCustomer . "';
+                INSERT INTO invoices (cus_id,inv_obj) VALUES ('" . $idCustomer . "','" . $invoiceSerialized . "')";
+                $prepareQuery = $pdoConnection->prepare($sql);
+                $prepareQuery->execute();
+            } catch (Exception $e) {
+                echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+                return false;
+            }
         }
     }
 

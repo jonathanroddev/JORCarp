@@ -1,7 +1,12 @@
 <?php
 $title = "Facturas";
 include_once("Layouts/header.php");
-if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
+if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
+    $dbUtils = new DBUtils();
+    $sql = "SELECT * FROM customers";
+    $customers = $dbUtils->getDatas($sql);
+    $sql2 = "SELECT * FROM invoices";
+    $invoices = $dbUtils->getDatas($sql2); ?>
     <div class="col-4">
         <div class="card bg-light mb-3 text-center" style="max-width: 18rem;margin-top:2rem">
             <div class="card-header text-white bg-info"><strong>Clientes</strong></div>
@@ -17,16 +22,12 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                         <br>
                     </form>
                 <?php } else {
-                    $dbUtils = new DBUtils();
-                    $sql = "SELECT * FROM customers";
-                    $customers = $dbUtils->getDatas($sql);
-                    $sql2 = "SELECT cus_id FROM invoices";
-                    $invoices = $dbUtils->getDatas($sql2);
                     for ($i = 0; $i < sizeof($customers); $i++) {
                         $customer = $customers[$i];
                         $styleButton = "primary";
                         for ($j = 0; $j < sizeof($invoices); $j++) {
-                            if ($invoices[$j]["cus_id"] == $customer["cus_id"]) $styleButton = "success";
+                            $invoice = $invoices[$j];
+                            if ($invoice["cus_id"] == $customer["cus_id"]) $styleButton = "success";
                         }
                         ?>
                         <button type="button" class="btn btn-<?php echo $styleButton ?> btn-block"

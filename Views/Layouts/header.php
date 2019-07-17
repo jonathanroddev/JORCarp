@@ -57,4 +57,3 @@ include_once("../Models/InvoicesUtils.php");
 </header>
 <main>
 <div class="container">
-    <div class="row justify-content-center align-items-center" style="height:50vh">

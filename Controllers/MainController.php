@@ -17,4 +17,9 @@ if(isset($_POST["invoice"])){
     $invUtils = new InvoicesUtils();
     $invUtils->uploadInvoiceData();
 }
+if(isset($_POST["exportToExcel"])){
+    $invUtils = new InvoicesUtils();
+    $invUtils->exportInvoicesToExcel();
+}
 ?>
+

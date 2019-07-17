@@ -7,10 +7,10 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
     $customers = $dbUtils->getDatas($sql);
     $sql2 = "SELECT * FROM invoices";
     $invoices = $dbUtils->getDatas($sql2);
-    //SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id?>
+    ?>
     <div class="row justify-content-center align-items-center" style="padding-top: 75px">
     <div class="col-4">
-    <div class="card bg-light mb-3 text-center" >
+    <div class="card bg-light mb-3 text-center">
     <div class="card-header text-white bg-info"><strong>Clientes</strong></div>
     <div class="card-body">
     <?php if (!isset($_SESSION["fileUploaded"]) || $_SESSION["fileUploaded"] == false) { ?>
@@ -48,19 +48,21 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
         <div class="row justify-content-center align-items-center" style="padding-top: 20px">
             <div class="col-4">
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary" onclick="createNotion()">Exportar facturas a Excel
-                    </button>
+                    <form action="" method="POST" id="exportForm">
+                        <input type="hidden" name="exportToExcel"/>
+                        <button type="button" onclick="checkSavedInvoices()" class="btn btn-primary">Exportar facturas a
+                            Excel
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
-    <?php } ?>
-
-<?php } else { ?>
+    <?php }
+} else { ?>
     <div class="row justify-content-center align-items-center" style="height:50vh">
-    <div class="alert alert-primary" role="alert">
-        Acceso Denegado. Por favor, ingresa un usuario y contraseña válidos pulsando <a href="login.php">aquí</a>
-    </div>
+        <div class="alert alert-primary" role="alert">
+            Acceso Denegado. Por favor, ingresa un usuario y contraseña válidos pulsando <a href="login.php">aquí</a>
+        </div>
     </div>
 <?php } ?>
-    <script src="../../Views/Scripts/facturas.js"></script>
 <?php include_once("Layouts/footer.php"); ?>

@@ -147,5 +147,4 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
         </div>
     </div>
 <?php } ?>
-<script src="../../Views/Scripts/cliente.js"></script>
 <?php include_once("Layouts/footer.php"); ?>

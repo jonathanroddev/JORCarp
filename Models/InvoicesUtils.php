@@ -98,7 +98,6 @@ class InvoicesUtils
             $nameNifCoordinate = $dateCoordinate + 1;
             $addressNumberInvoiceCoordinate = $dateCoordinate + 2;
             $headerInvoiceCoordinate = $dateCoordinate + 3;
-            $coordinateNotion = $dateCoordinate + 4;
             $activeSheet->setCellValue("A" . $dateCoordinate, "Fecha:");
             $activeSheet->getStyle("A" . $dateCoordinate)->getFont()->setBold(true);
             $activeSheet->setCellValue("B" . $dateCoordinate, $date);
@@ -126,7 +125,7 @@ class InvoicesUtils
             $activeSheet->getStyle("D" . $headerInvoiceCoordinate)->applyFromArray($headerStyle);
             for ($j = 0; $j < sizeof($invoice["notions"]); $j++) {
                 $notion = $invoice["notions"][$j];
-                $coordinateNotion = $coordinateNotion + $j;
+                $coordinateNotion = $dateCoordinate + 4 + $j;
                 $activeSheet->setCellValue("A" . $coordinateNotion, number_format($notion["quantity"],2,",","."));
                 $activeSheet->getStyle("A" . $coordinateNotion)->applyFromArray($textAlignStyle);
                 $activeSheet->setCellValue("B" . $coordinateNotion, $notion["description"]);

@@ -76,20 +76,68 @@ class InvoicesUtils
         require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
         $objPHPExcel = new PHPExcel();
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        $fileName = "prueba.xlsx";
+        $fileName = "prueba2.xlsx";
         $fileURL = '../Files/' . $fileName;
         $objPHPExcel->setActiveSheetIndex(0);
+        $date = date("d-m-Y");
         $dbUtils = new DBUtils();
         $sql = "SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id";
         $datas = $dbUtils->getDatas($sql);
+        $dateCoordinate = 1;
         for ($i = 0; $i < sizeof($datas); $i++) {
             $invoice = unserialize($datas[$i]["inv_obj"]);
             $datas[$i]["inv_obj"] = $invoice;
+            $nameNifCoordinate = $dateCoordinate + 1;
+            $addressNumberInvoiceCoordinate = $dateCoordinate + 2;
+            $headerInvoiceCoordinate = $dateCoordinate + 3;
+            $coordinateNotion = $dateCoordinate + 4;
+            $objPHPExcel->getActiveSheet()->setCellValue("A" . $dateCoordinate, "Fecha:");
+            $objPHPExcel->getActiveSheet()->setCellValue("B" . $dateCoordinate, $date);
+            $objPHPExcel->getActiveSheet()->setCellValue("A" . $nameNifCoordinate, "Nombre:");
+            $objPHPExcel->getActiveSheet()->setCellValue("B" . $nameNifCoordinate, $datas[$i]["cus_name"]);
+            $objPHPExcel->getActiveSheet()->setCellValue("C" . $nameNifCoordinate, "NIF:");
+            $objPHPExcel->getActiveSheet()->setCellValue("D" . $nameNifCoordinate, $datas[$i]["cus_nif"]);
+            $objPHPExcel->getActiveSheet()->setCellValue("A" . $addressNumberInvoiceCoordinate, "Dirección:");
+            $objPHPExcel->getActiveSheet()->setCellValue("B" . $addressNumberInvoiceCoordinate, $datas[$i]["cus_address1"] . ", " . $datas[$i]["cus_address2"]);
+            $objPHPExcel->getActiveSheet()->setCellValue("C" . $addressNumberInvoiceCoordinate, "Nº Factura");
+            $objPHPExcel->getActiveSheet()->setCellValue("D" . $addressNumberInvoiceCoordinate, 1);
+            $objPHPExcel->getActiveSheet()->setCellValue("A" . $headerInvoiceCoordinate, "Cantidad");
+            $objPHPExcel->getActiveSheet()->setCellValue("B" . $headerInvoiceCoordinate, "Descripción");
+            $objPHPExcel->getActiveSheet()->setCellValue("C" . $headerInvoiceCoordinate, "P. Unidad");
+            $objPHPExcel->getActiveSheet()->setCellValue("D" . $headerInvoiceCoordinate, "Importe");
+            for ($j = 0; $j < sizeof($invoice["notions"]); $j++) {
+                $notion = $invoice["notions"][$j];
+                $coordinateNotion = $coordinateNotion + $j;
+                $objPHPExcel->getActiveSheet()->setCellValue("A" . $coordinateNotion, $notion["quantity"]);
+                $objPHPExcel->getActiveSheet()->setCellValue("B" . $coordinateNotion, $notion["description"]);
+                $objPHPExcel->getActiveSheet()->setCellValue("C" . $coordinateNotion, $notion["unitPrice"]);
+                $objPHPExcel->getActiveSheet()->setCellValue("D" . $coordinateNotion, $notion["amount"]);
+            }
+            $sizeOfNotions = sizeof($invoice["notions"]);
+            $lastCoordinateNotion = $coordinateNotion;
+            $nextCoordinateNotion = $lastCoordinateNotion+1;
+            while ($sizeOfNotions < 14) {
+                $objPHPExcel->getActiveSheet()->setCellValue("A" . $nextCoordinateNotion, "");
+                $objPHPExcel->getActiveSheet()->setCellValue("B" . $nextCoordinateNotion, "");
+                $objPHPExcel->getActiveSheet()->setCellValue("C" . $nextCoordinateNotion, "");
+                $objPHPExcel->getActiveSheet()->setCellValue("D" . $nextCoordinateNotion, "");
+                $nextCoordinateNotion++;
+                $sizeOfNotions++;
+            }
+            $grossTotalCoordinate = $nextCoordinateNotion+1;
+            $igicCoordinate = $nextCoordinateNotion+2;
+            $totalCoordinate = $nextCoordinateNotion+3;
+            $objPHPExcel->getActiveSheet()->setCellValue("C" . $grossTotalCoordinate, "Total Bruto:");
+            $objPHPExcel->getActiveSheet()->setCellValue("D" . $grossTotalCoordinate, $invoice["totals"]["grossTotal"]);
+            $objPHPExcel->getActiveSheet()->setCellValue("C" . $igicCoordinate, "IGIC 6,5%:");
+            $objPHPExcel->getActiveSheet()->setCellValue("D" . $igicCoordinate, $invoice["totals"]["igic"]);
+            $objPHPExcel->getActiveSheet()->setCellValue("C" . $totalCoordinate, "TOTAL");
+            $objPHPExcel->getActiveSheet()->setCellValue("D" . $totalCoordinate, $invoice["totals"]["total"]);
+            $dateCoordinate = $dateCoordinate + 25;
             /*echo "<pre>";
             var_dump($datas);
             echo "</pre>";*/
         }
-        $objPHPExcel->getActiveSheet()->setCellValue("A1", "Jonathan");
         $objWriter->save($fileURL);
         header('Content-Type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=" . $fileName);

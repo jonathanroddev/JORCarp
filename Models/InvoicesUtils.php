@@ -20,7 +20,7 @@ class InvoicesUtils
         require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
         $objReader = PHPExcel_IOFactory::createReader('Excel2007');
         $objPHPExcel = $objReader->load($customersFileName);
-        $objWorksheet = $activeSheet;
+        $objWorksheet = $objPHPExcel->getActiveSheet();
 
         $highestRow = $objWorksheet->getHighestRow();
         $highestColumn = $objWorksheet->getHighestColumn();

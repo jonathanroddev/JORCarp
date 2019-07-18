@@ -33,15 +33,20 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
         <div class="col-8">
             <div class="text-center">
                 <?php
-                $indexRow = 2;
                 if ($invoiceSerialized != null) {
                     $invoice = unserialize($invoiceSerialized[0]["inv_obj"]);
                     $indexRow = sizeof($invoice["notions"]) + 1;
-                } ?>
-                <button type="button" class="btn btn-primary" onclick="createNotion(<?php echo $indexRow ?>)">Añadir
-                    otro
-                    concepto
-                </button>
+                    ?>
+                    <button type="button" class="btn btn-primary" value="<?php echo $indexRow ?>" onclick="createNotionSavedInvoice(this)">Añadir
+                        otro
+                        concepto
+                    </button>
+                <?php } else { ?>
+                    <button type="button" class="btn btn-primary" onclick="createNotion()">Añadir
+                        otro
+                        concepto
+                    </button>
+                <?php } ?>
             </div>
         </div>
     </div>

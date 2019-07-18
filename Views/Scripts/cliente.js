@@ -1,5 +1,5 @@
-//let i = 2;
-function createNotion(i) {
+let i = 2;
+function createNotion() {
     let table = document.getElementById("invoice");
     let row = table.insertRow(i);
     let cell1 = row.insertCell(0);
@@ -12,6 +12,22 @@ function createNotion(i) {
     cell4.innerHTML = "<td><input type='text' class='form-control' id='amount" + i + "' name='amounts[]' onkeyup='calculateTotal(" + i + ")'></td>";
     i++;
 }
+
+function createNotionSavedInvoice(e) {
+    let j = e.value;
+    let table = document.getElementById("invoice");
+    let row = table.insertRow(j);
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    let cell3 = row.insertCell(2);
+    let cell4 = row.insertCell(3);
+    cell1.innerHTML = "<td scope='row'><input type='text' class='form-control' id='quantity" + j + "' name='quantities[]' oninput='calculateAmount(" + j + ")'></td>";
+    cell2.innerHTML = "<td><input type='text' class='form-control' id='description" + j + "' name='descriptions[]'></td>";
+    cell3.innerHTML = "<td><input type='text' class='form-control' id='unitprice" + j + "' name='unitprices[]' oninput='calculateAmount(" + j + ")'></td>";
+    cell4.innerHTML = "<td><input type='text' class='form-control' id='amount" + j + "' name='amounts[]' onkeyup='calculateTotal(" + j + ")'></td>";
+    e.value = parseInt(j)+1;
+}
+
 function calculateAmount(index) {
     let quantity = document.getElementById("quantity" + index);
     let unitPrice = document.getElementById("unitprice" + index);

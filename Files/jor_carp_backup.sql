@@ -30,6 +30,20 @@ CREATE TABLE IF NOT EXISTS `customers` (
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 
+-- Volcando estructura para tabla jor_carp.invoices
+CREATE TABLE IF NOT EXISTS `invoices` (
+  `inv_id` int(11) NOT NULL AUTO_INCREMENT,
+  `inv_obj` text NOT NULL,
+  `cus_id` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`inv_id`),
+  KEY `fk_cus_id` (`cus_id`),
+  CONSTRAINT `fk_cus_id` FOREIGN KEY (`cus_id`) REFERENCES `customers` (`cus_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla jor_carp.invoices: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
+
 -- Volcando estructura para tabla jor_carp.users
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -41,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla jor_carp.users: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla jor_carp.users: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 REPLACE INTO `users` (`user_id`, `user_name`, `user_mail`, `user_password`, `user_status`, `user_privilege`) VALUES
 	(1, 'José', 'jorcarp@webmaster.com', '662eaa47199461d01a623884080934ab', 1, 1);

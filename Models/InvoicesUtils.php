@@ -6,7 +6,7 @@ class InvoicesUtils
     function uploadCustomersData()
     {
         $dbUtils = new DBUtils();
-        $uploadTo = '../Files/';
+        $uploadTo = 'Files/';
         $uploadCustomersFile = $uploadTo . basename($_FILES['customersFile']['name']);
         move_uploaded_file($_FILES['customersFile']['tmp_name'], $uploadCustomersFile);
         $_SESSION["fileDirectory"] = $uploadCustomersFile;
@@ -68,7 +68,7 @@ class InvoicesUtils
         }
         $dbUtils = new DBUtils();
         $dbUtils->insertInvoiceData($idCustomer, $invoice);
-        header("Location:facturas.php");
+        header("Location:?page=facturas");
     }
 
     function exportInvoicesToExcel()
@@ -77,7 +77,7 @@ class InvoicesUtils
         $objPHPExcel = new PHPExcel();
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $fileName = "prueba2.xlsx";
-        $fileURL = '../Files/' . $fileName;
+        $fileURL = 'Files/' . $fileName;
         $objPHPExcel->setActiveSheetIndex(0);
         $date = date("d-m-Y");
         $dbUtils = new DBUtils();
@@ -126,39 +126,42 @@ class InvoicesUtils
             for ($j = 0; $j < sizeof($invoice["notions"]); $j++) {
                 $notion = $invoice["notions"][$j];
                 $coordinateNotion = $dateCoordinate + 4 + $j;
-                $activeSheet->setCellValue("A" . $coordinateNotion, number_format($notion["quantity"],2,",","."));
+                $activeSheet->setCellValue("A" . $coordinateNotion, $notion["quantity"]);
                 $activeSheet->getStyle("A" . $coordinateNotion)->applyFromArray($textAlignStyle);
                 $activeSheet->setCellValue("B" . $coordinateNotion, $notion["description"]);
-                $activeSheet->setCellValue("C" . $coordinateNotion, number_format($notion["unitPrice"],2,",","."));
+                if ($notion["unitPrice"] != "")
+                    $activeSheet->setCellValue("C" . $coordinateNotion, number_format($notion["unitPrice"], 2, ",", "."));
+                else
+                    $activeSheet->setCellValue("C" . $coordinateNotion, $notion["unitPrice"]);
                 $activeSheet->getStyle("C" . $coordinateNotion)->applyFromArray($textAlignStyle);
-                $activeSheet->setCellValue("D" . $coordinateNotion, number_format($notion["amount"],2,",",".") . " €");
+                $activeSheet->setCellValue("D" . $coordinateNotion, number_format($notion["amount"], 2, ",", ".") . " €");
                 $activeSheet->getStyle("D" . $coordinateNotion)->applyFromArray($textAlignStyle);
             }
             $sizeOfNotions = sizeof($invoice["notions"]);
             $lastCoordinateNotion = $coordinateNotion;
             $nextCoordinateNotion = $lastCoordinateNotion + 1;
-            while ($sizeOfNotions < 14) {
+            /*while ($sizeOfNotions < 15) {
                 $activeSheet->setCellValue("A" . $nextCoordinateNotion, "");
                 $activeSheet->setCellValue("B" . $nextCoordinateNotion, "");
                 $activeSheet->setCellValue("C" . $nextCoordinateNotion, "");
                 $activeSheet->setCellValue("D" . $nextCoordinateNotion, "");
                 $nextCoordinateNotion++;
                 $sizeOfNotions++;
-            }
-            $grossTotalCoordinate = $nextCoordinateNotion + 1;
-            $igicCoordinate = $nextCoordinateNotion + 2;
-            $totalCoordinate = $nextCoordinateNotion + 3;
+            }*/
+            $grossTotalCoordinate = $dateCoordinate + 19;
+            $igicCoordinate = $dateCoordinate + 20;
+            $totalCoordinate = $dateCoordinate + 21;
             $activeSheet->setCellValue("C" . $grossTotalCoordinate, "Total Bruto:");
             $activeSheet->getStyle("C" . $grossTotalCoordinate)->getFont()->setBold(true);
-            $activeSheet->setCellValue("D" . $grossTotalCoordinate, number_format($invoice["totals"]["grossTotal"],2,",",".") . " €");
+            $activeSheet->setCellValue("D" . $grossTotalCoordinate, number_format($invoice["totals"]["grossTotal"], 2, ",", ".") . " €");
             $activeSheet->getStyle("D" . $grossTotalCoordinate)->applyFromArray($textAlignStyle);
             $activeSheet->setCellValue("C" . $igicCoordinate, "IGIC 6,5%:");
             $activeSheet->getStyle("C" . $igicCoordinate)->getFont()->setBold(true);
-            $activeSheet->setCellValue("D" . $igicCoordinate, number_format($invoice["totals"]["igic"],2,",",".") . " €");
+            $activeSheet->setCellValue("D" . $igicCoordinate, number_format($invoice["totals"]["igic"], 2, ",", ".") . " €");
             $activeSheet->getStyle("D" . $igicCoordinate)->applyFromArray($textAlignStyle);
             $activeSheet->setCellValue("C" . $totalCoordinate, "TOTAL");
             $activeSheet->getStyle("C" . $totalCoordinate)->getFont()->setBold(true);
-            $activeSheet->setCellValue("D" . $totalCoordinate, number_format($invoice["totals"]["total"],2,",",".") . " €");
+            $activeSheet->setCellValue("D" . $totalCoordinate, number_format($invoice["totals"]["total"], 2, ",", ".") . " €");
             $activeSheet->getStyle("D" . $totalCoordinate)->applyFromArray($textAlignStyle);
 
             $activeSheet->getStyle("A" . $dateCoordinate . ":D" . $totalCoordinate)->applyFromArray($borderStyle);

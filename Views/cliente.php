@@ -1,15 +1,4 @@
 <?php
-include_once("../Models/DBUtils.php");
-$dbUtils = new DBUtils();
-if (isset($_GET["idcliente"])) {
-    $cusId = $_GET["idcliente"];
-    $sql = "SELECT * FROM customers WHERE cus_id=" . $cusId;
-    $customer = $dbUtils->getDatas($sql);
-    $sql2 = "SELECT inv_obj FROM invoices WHERE cus_id=" . $cusId;
-    $invoiceSerialized = $dbUtils->getDatas($sql2);
-    $title = "Cliente: " . $customer[0]["cus_address1"];
-}
-include_once("Layouts/header.php");
 if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
     <div class="row justify-content-center align-items-center" style="padding-top: 75px">
         <div class="col-8">
@@ -138,7 +127,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                     </table>
                     <br>
                     <input type="hidden" name="invoice">
-                    <button type="button" class="btn btn-primary" onclick="location.href='facturas.php'">Atrás</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href='?page=facturas'">Atrás</button>
                     <button type="submit" class="btn btn-primary">Guardar</button>
                 </form>
             </div>
@@ -147,9 +136,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
 <?php } else { ?>
     <div class="row justify-content-center align-items-center" style="height:50vh">
         <div class="alert alert-primary" role="alert">
-            Acceso Denegado. Por favor, ingresa un usuario y contraseña válidos pulsando <a
-                    href="login.php">aquí</a>
+            Acceso Denegado. Por favor, ingresa un usuario y contraseña válidos pulsando <a href="?page=login">aquí</a>
         </div>
     </div>
 <?php } ?>
-<?php include_once("Layouts/footer.php"); ?>

@@ -1,12 +1,5 @@
 <?php
-$title = "Facturas";
-include_once("Layouts/header.php");
 if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
-    $dbUtils = new DBUtils();
-    $sql = "SELECT * FROM customers";
-    $customers = $dbUtils->getDatas($sql);
-    $sql2 = "SELECT * FROM invoices";
-    $invoices = $dbUtils->getDatas($sql2);
     ?>
     <div class="row justify-content-center align-items-center" style="padding-top: 75px">
     <div class="col-4">
@@ -37,7 +30,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
             }
             ?>
             <button type="button" class="btn btn-<?php echo $styleButton ?> btn-block"
-                    onclick="location.href='cliente.php?idcliente=<?php echo($customer["cus_id"]); ?>'">
+                    onclick="location.href='?page=cliente&idcliente=<?php echo($customer["cus_id"]); ?>'">
                 <?php echo($customer["cus_address1"]); ?>
             </button>
         <?php } ?>
@@ -61,8 +54,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
 } else { ?>
     <div class="row justify-content-center align-items-center" style="height:50vh">
         <div class="alert alert-primary" role="alert">
-            Acceso Denegado. Por favor, ingresa un usuario y contraseña válidos pulsando <a href="login.php">aquí</a>
+            Acceso Denegado. Por favor, ingresa un usuario y contraseña válidos pulsando <a href="?page=login">aquí</a>
         </div>
     </div>
 <?php } ?>
-<?php include_once("Layouts/footer.php"); ?>

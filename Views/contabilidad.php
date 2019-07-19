@@ -1,6 +1,4 @@
 <?php
-$title = "Admin Interface";
-include_once("Layouts/header.php");
 if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
     ?>
     <div class="row justify-content-center align-items-center" style="padding-top: 75px">
@@ -8,7 +6,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
             <div class="card bg-light mb-3 text-center" style="max-width: 18rem;">
                 <div class="card-header text-white bg-info"><strong>Contabilidad</strong></div>
                 <div class="card-body">
-                    <button type="button" class="btn btn-primary btn-block" onclick="location.href='facturas.php'">
+                    <button type="button" class="btn btn-primary btn-block" onclick="location.href='?page=facturas'">
                         Facturas
                     </button>
                     <hr>
@@ -22,8 +20,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
 <?php } else { ?>
     <div class="row justify-content-center align-items-center" style="height:50vh">
         <div class="alert alert-primary" role="alert">
-            Acceso Denegado. Por favor, ingresa un usuario y contraseña válidos pulsando <a href="login.php">aquí</a>
+            Acceso Denegado. Por favor, ingresa un usuario y contraseña válidos pulsando <a href="?page=login">aquí</a>
         </div>
     </div>
 <?php }
-include_once("Layouts/footer.php"); ?>

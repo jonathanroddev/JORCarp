@@ -2,9 +2,7 @@
 <html lang="es">
 <?php
 session_start();
-include_once("../Controllers/MainController.php");
-include_once("../Models/DBUtils.php");
-include_once("../Models/InvoicesUtils.php");
+include_once("Controllers/MainController.php");
 ?>
 <head>
     <title><?php echo $title ?></title>
@@ -46,7 +44,7 @@ include_once("../Models/InvoicesUtils.php");
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="#">Cuenta</a>
-                        <a class="dropdown-item" href="login.php?&logout=yes">Logout<br><i class="material-icons">exit_to_app</i></a>
+                        <a class="dropdown-item" href="?page=login&logout=yes">Logout<br><i class="material-icons">exit_to_app</i></a>
                     </div>
                 </li>
             </ul>
@@ -57,3 +55,4 @@ include_once("../Models/InvoicesUtils.php");
 </header>
 <main>
 <div class="container">
+<?php include_once ("Views/".$page.".php"); ?>

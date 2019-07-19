@@ -1,6 +1,6 @@
 <?php
 require 'DBConnection.php';
-
+require 'Controllers/MainController.php';
 class DBUtils
 {
     function login()
@@ -17,7 +17,8 @@ class DBUtils
             if ($result == 1) {
                 $_SESSION["userStatus"] = 1;
                 $_SESSION["userPrivileges"] = 1;
-                header("Location:contabilidad.php");
+                $page = "contabilidad";
+                header("Location:?page=contabilidad");
                 exit();
             } else {
                 $_POST["errorLogin"] = true;

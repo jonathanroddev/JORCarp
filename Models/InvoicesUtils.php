@@ -47,6 +47,7 @@ class InvoicesUtils
     function uploadInvoiceData()
     {
         if (isset($_GET["idcliente"])) $idCustomer = $_GET["idcliente"];
+        if (isset($_POST["reference"])) $reference = $_POST["reference"];
         if (isset($_POST["quantities"])) $quantities = $_POST["quantities"];
         if (isset($_POST["descriptions"])) $descriptions = $_POST["descriptions"];
         if (isset($_POST["unitprices"])) $unitPrices = $_POST["unitprices"];
@@ -55,6 +56,7 @@ class InvoicesUtils
         if (isset($_POST["igic"])) $igic = $_POST["igic"];
         if (isset($_POST["total"])) $total = $_POST["total"];
         $invoice = array();
+        $invoice["reference"] = $reference;
         for ($i = 0; $i < sizeof($amounts); $i++) {
             if ($amounts[$i] != "" && $amounts[$i] > 0) {
                 $notion = ["quantity" => $quantities[$i], "description" => $descriptions[$i],
@@ -113,7 +115,7 @@ class InvoicesUtils
             $activeSheet->setCellValue("B" . $addressNumberInvoiceCoordinate, $datas[$i]["cus_address1"] . ", " . $datas[$i]["cus_address2"]);
             $activeSheet->setCellValue("C" . $addressNumberInvoiceCoordinate, "Nº Factura");
             $activeSheet->getStyle("C" . $addressNumberInvoiceCoordinate)->getFont()->setBold(true);
-            $activeSheet->setCellValue("D" . $addressNumberInvoiceCoordinate, "");
+            $activeSheet->setCellValue("D" . $addressNumberInvoiceCoordinate, $datas[$i]["inv_ref"]);
             $activeSheet->getStyle("D" . $addressNumberInvoiceCoordinate)->applyFromArray($textAlignStyle);
             $activeSheet->setCellValue("A" . $headerInvoiceCoordinate, "Cantidad");
             $activeSheet->getStyle("A" . $headerInvoiceCoordinate)->applyFromArray($headerStyle);
@@ -157,6 +159,9 @@ class InvoicesUtils
             $activeSheet->getStyle("D" . $grossTotalCoordinate)->applyFromArray($textAlignStyle);
             $activeSheet->setCellValue("C" . $igicCoordinate, "IGIC 6,5%:");
             $activeSheet->getStyle("C" . $igicCoordinate)->getFont()->setBold(true);
+            if ($datas[$i]["inv_ref"] == "")
+            $activeSheet->setCellValue("D" . $igicCoordinate, "");
+            else
             $activeSheet->setCellValue("D" . $igicCoordinate, number_format($invoice["totals"]["igic"], 2, ",", ".") . " €");
             $activeSheet->getStyle("D" . $igicCoordinate)->applyFromArray($textAlignStyle);
             $activeSheet->setCellValue("C" . $totalCoordinate, "TOTAL");

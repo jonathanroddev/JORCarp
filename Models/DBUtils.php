@@ -99,11 +99,12 @@ class DBUtils
     {
         $dbConn = new DBConnection();
         $pdoConnection = $dbConn->PdoConnection();
+        $reference = $invoice["reference"];
         if ($invoice["notions"] > 0) {
             $invoiceSerialized = serialize($invoice);
+            $sql = "DELETE FROM invoices WHERE cus_id = '" . $idCustomer . "';
+                INSERT INTO invoices (cus_id,inv_obj,inv_ref) VALUES ('" . $idCustomer . "','" . $invoiceSerialized . "','".$reference."')";
             try {
-                $sql = "DELETE FROM invoices WHERE cus_id = '" . $idCustomer . "';
-                INSERT INTO invoices (cus_id,inv_obj) VALUES ('" . $idCustomer . "','" . $invoiceSerialized . "')";
                 $prepareQuery = $pdoConnection->prepare($sql);
                 $prepareQuery->execute();
             } catch (Exception $e) {

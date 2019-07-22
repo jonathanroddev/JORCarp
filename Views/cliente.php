@@ -26,7 +26,8 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                     $invoice = unserialize($invoiceSerialized[0]["inv_obj"]);
                     $indexRow = sizeof($invoice["notions"]) + 1;
                     ?>
-                    <button type="button" class="btn btn-primary" value="<?php echo $indexRow ?>" onclick="createNotionSavedInvoice(this)">Añadir
+                    <button type="button" class="btn btn-primary" value="<?php echo $indexRow ?>"
+                            onclick="createNotionSavedInvoice(this)">Añadir
                         otro
                         concepto
                     </button>
@@ -53,6 +54,15 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                         </tr>
                         </thead>
                         <tbody>
+                      <div class="input-group mb-3">
+                            <input type="text" class="form-control" readonly style="visibility: hidden">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" class="checkbox-invoice" onchange="listInvoice(this)" unchecked>
+                                </div>
+                                <input type="text" class="form-control" id="reference" name="reference" oninput="calculateTotal()" placeholder="Ref." readonly pattern="^\S+$">
+                            </div>
+                        </div>
                         <?php if ($invoiceSerialized != null) {
                             $invoice = unserialize($invoiceSerialized[0]["inv_obj"]);
                             for ($i = 0; $i < sizeof($invoice["notions"]); $i++) {
@@ -126,9 +136,15 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                         </tbody>
                     </table>
                     <br>
-                    <input type="hidden" name="invoice">
-                    <button type="button" class="btn btn-primary" onclick="location.href='?page=facturas'">Atrás</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <div class="row justify-content-center align-items-center" style="padding-bottom:75px">
+                        <div class="col-8">
+                            <input type="hidden" name="invoice">
+                            <button type="button" class="btn btn-primary" onclick="location.href='?page=facturas'">
+                                Atrás
+                            </button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

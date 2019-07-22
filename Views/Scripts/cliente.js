@@ -1,4 +1,5 @@
 let i = 2;
+
 function createNotion() {
     let table = document.getElementById("invoice");
     let row = table.insertRow(i);
@@ -25,7 +26,7 @@ function createNotionSavedInvoice(e) {
     cell2.innerHTML = "<td><input type='text' class='form-control' id='description" + j + "' name='descriptions[]'></td>";
     cell3.innerHTML = "<td><input type='text' class='form-control' id='unitprice" + j + "' name='unitprices[]' oninput='calculateAmount(" + j + ")'></td>";
     cell4.innerHTML = "<td><input type='text' class='form-control' id='amount" + j + "' name='amounts[]' onkeyup='calculateTotal(" + j + ")'></td>";
-    e.value = parseInt(j)+1;
+    e.value = parseInt(j) + 1;
 }
 
 function calculateAmount(index) {
@@ -37,18 +38,37 @@ function calculateAmount(index) {
 }
 
 function calculateTotal() {
+    let reference = document.getElementById("reference");
     let grossTotal = document.getElementById("grosstotal");
-    let igicPercentage = 6.5/100;
+    let igicPercentage = 6.5 / 100;
     let igicTotal = document.getElementById("igic");
     let total = document.getElementById("total");
     let amounts = document.getElementsByName("amounts[]");
     let gross = 0;
-    for(let i=0;i<amounts.length;i++){
+    for (let i = 0; i < amounts.length; i++) {
         gross += +(amounts[i].value);
     }
     grossTotal.value = gross;
-    igicAmount = parseFloat(gross * igicPercentage).toFixed(2);
-    igicTotal.value = igicAmount;
-    total.value = (parseFloat(gross) + parseFloat(igicAmount)).toFixed(2);
+    if (isNaN(reference.value) || reference.value == "") {
+        igicTotal.value = "";
+        total.value = gross;
+    } else {
+        igicAmount = parseFloat(gross * igicPercentage).toFixed(2);
+        igicTotal.value = igicAmount;
+        total.value = (parseFloat(gross) + parseFloat(igicAmount)).toFixed(2);
+    }
+}
+
+function listInvoice(e) {
+    let reference = document.getElementById("reference");
+    if (e.checked == true) {
+        reference.removeAttribute("readonly");
+        reference.setAttribute("required", "true");
+    } else {
+        reference.setAttribute("readonly", "true");
+        reference.removeAttribute("required");
+        reference.value = "";
+        calculateTotal();
+    }
 }
 

@@ -1,6 +1,5 @@
 <?php
 $title = "Login";
-include_once("Layouts/header.php");
 if (!isset($_SESSION["userStatus"]) || $_SESSION["userStatus"] == 0) {
     ?>
     <div class="row justify-content-center align-items-center" style="height:50vh">
@@ -29,8 +28,7 @@ if (!isset($_SESSION["userStatus"]) || $_SESSION["userStatus"] == 0) {
 <?php } else { ?>
     <div class="row justify-content-center align-items-center" style="height:50vh">
         <div class="alert alert-primary" role="alert">
-            Ya tienes una sesión iniciada.
+            Ya tienes una sesión iniciada. Click <a href="?page=contabilidad">aquí</a> para continuar
         </div>
     </div>
-<?php }
-include_once("Layouts/footer.php"); ?>
+<?php }?>

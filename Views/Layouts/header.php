@@ -11,11 +11,12 @@ include_once("Controllers/MainController.php");
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
+    <link rel="stylesheet" href="/Views/Styles/cliente.css">
 </head>
 <body>
 <header>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <p class="font-weight-bolder font-italic"><a class="navbar-brand" href="/Views/contabilidad.php">Carpintería José
+    <p class="font-weight-bolder font-italic"><a class="navbar-brand" href="?page=contabilidad">Carpintería José
             Octavio</a></p>
     <p class="font-weight-bolder font-italic text-right navbar-brand"><small>&copy;Jonathan Rodríguez</small></p>
     <?php if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
@@ -26,10 +27,10 @@ include_once("Controllers/MainController.php");
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/Views/contabilidad.php"><i class="material-icons">home</i></a>
+                    <a class="nav-link" href="?page=contabilidad"><i class="material-icons">home</i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Views/facturas.php">Facturas</a>
+                    <a class="nav-link" href="?page=facturas">Facturas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Compras</a>

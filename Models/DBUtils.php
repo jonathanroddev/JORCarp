@@ -17,7 +17,6 @@ class DBUtils
             if ($result == 1) {
                 $_SESSION["userStatus"] = 1;
                 $_SESSION["userPrivileges"] = 1;
-                $page = "contabilidad";
                 header("Location:?page=contabilidad");
                 exit();
             } else {

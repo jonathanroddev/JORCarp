@@ -1,7 +1,7 @@
 <?php
 include_once("Models/DBUtils.php");
 include_once("Models/InvoicesUtils.php");
-if (isset($_GET["page"])) {
+if (isset($_GET["page"]) && $_GET["page"] != "") {
     $page = $_GET["page"];
     $oneCusAddress = "";
     if (isset($_GET["idcliente"])) {
@@ -11,7 +11,7 @@ if (isset($_GET["page"])) {
         $cusAdress1 = $dbUtils->getDatas($sql);
         $oneCusAddress = $cusAdress1[0]["cus_address1"];
     }
-    $titles = array("login" => "Login", "contabilidad" => "Contabilidad", "facturas" => "Facturas", "cliente" => "Cliente: " . $oneCusAddress);
+    $titles = array("login" => "Login", "contabilidad" => "Contabilidad", "facturas" => "Facturas", "cliente" => "Cliente: " . $oneCusAddress, "registro" => "Cliente: " . $oneCusAddress);
     $title = $titles[$page];
     switch ($page) {
         case "facturas":
@@ -29,8 +29,14 @@ if (isset($_GET["page"])) {
                 $customer = $dbUtils->getDatas($sql);
                 $sql2 = "SELECT inv_obj FROM invoices WHERE cus_id=" . $cusId;
                 $invoiceSerialized = $dbUtils->getDatas($sql2);
+                $sql3 = "SELECT inv_ref FROM invoices WHERE cus_id=" . $cusId;
+                $referenceSavedDB = $dbUtils->getDatas($sql3);
+                $referenceSaved = "";
+                if($referenceSavedDB!=null) $referenceSaved = $referenceSavedDB[0]["inv_ref"];
                 $title = "Cliente: " . $customer[0]["cus_address1"];
             }
+            if ($invoiceSerialized == null) $page = "cliente";
+            else $page = "registro";
             break;
     }
 } else {

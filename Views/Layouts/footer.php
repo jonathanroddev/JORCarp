@@ -1,5 +1,11 @@
 </div>
 </main>
+<div class="push"></div>
+<footer class="page-footer font-small blue pt-4">
+    <div class="footer-copyright text-center py-3">© 2019 Copyright:
+        <a href="mailto:jonathan.rguez.mdza@gmail.com"> Jonathan Rodríguez Mendoza</a>
+    </div>
+</footer>
 <script src="/Views/Scripts/facturas.js"></script>
 <script src="/Views/Scripts/cliente.js"></script>
 <!-- Link Export bootstrap -->

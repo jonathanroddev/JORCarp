@@ -21,22 +21,10 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
     <div class="row justify-content-center align-items-center" style="padding-top: 25px">
         <div class="col-8">
             <div class="text-center">
-                <?php
-                if ($invoiceSerialized != null) {
-                    $invoice = unserialize($invoiceSerialized[0]["inv_obj"]);
-                    $indexRow = sizeof($invoice["notions"]) + 1;
-                    ?>
-                    <button type="button" class="btn btn-primary" value="<?php echo $indexRow ?>"
-                            onclick="createNotionSavedInvoice(this)">Añadir
-                        otro
-                        concepto
-                    </button>
-                <?php } else { ?>
                     <button type="button" class="btn btn-primary" onclick="createNotion()">Añadir
                         otro
                         concepto
                     </button>
-                <?php } ?>
             </div>
         </div>
     </div>
@@ -63,51 +51,6 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                 <input type="text" class="form-control" id="reference" name="reference" oninput="calculateTotal()" placeholder="Ref." readonly pattern="^\S+$">
                             </div>
                         </div>
-                        <?php if ($invoiceSerialized != null) {
-                            $invoice = unserialize($invoiceSerialized[0]["inv_obj"]);
-                            for ($i = 0; $i < sizeof($invoice["notions"]); $i++) {
-                                $quantity = $invoice["notions"][$i]["quantity"];
-                                $description = $invoice["notions"][$i]["description"];
-                                $unitPrice = $invoice["notions"][$i]["unitPrice"];
-                                $amount = $invoice["notions"][$i]["amount"];
-                                ?>
-                                <tr>
-                                    <td scope="row"><input type="number" class="form-control"
-                                                           id="quantity<?php echo($i + 1) ?>" name="quantities[]"
-                                                           oninput="calculateAmount(<?php echo($i + 1) ?>)"
-                                                           value="<?php echo $quantity ?>"></td>
-                                    <td><input type="text" class="form-control" id="description<?php echo($i + 1) ?>"
-                                               name="descriptions[]" value="<?php echo $description ?>"></td>
-                                    <td><input type="number" class="form-control" id="unitprice<?php echo($i + 1) ?>"
-                                               name="unitprices[]"
-                                               oninput="calculateAmount(<?php echo($i + 1) ?>)" step=".01"
-                                               value="<?php echo $unitPrice ?>"></td>
-                                    <td><input type="number" class="form-control" id="amount<?php echo($i + 1) ?>"
-                                               name="amounts[]"
-                                               onkeyup="calculateTotal(<?php echo($i + 1) ?>)" step=".01"
-                                               value="<?php echo $amount ?>"></td>
-                                </tr>
-                            <?php }
-                            $grossTotal = $invoice["totals"]["grossTotal"];
-                            $igic = $invoice["totals"]["igic"];
-                            $total = $invoice["totals"]["total"];
-                            ?>
-                            <tr>
-                                <td colspan="3" scope="row" class="text-right">Total Bruto</td>
-                                <td><input type="text" class="form-control" id="grosstotal" name="grosstotal"
-                                           value="<?php echo $grossTotal ?>" readonly></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" scope="row" class="text-right">IGIC 6,5%</td>
-                                <td><input type="text" class="form-control" id="igic" name="igic"
-                                           value="<?php echo $igic ?>" readonly></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" scope="row" class="text-right">Total</td>
-                                <td><input type="text" class="form-control" id="total" name="total"
-                                           value="<?php echo $total ?>" readonly></td>
-                            </tr>
-                        <?php } else { ?>
                             <tr>
                                 <td scope="row"><input type="number" class="form-control" id="quantity1"
                                                        name="quantities[]"
@@ -132,7 +75,6 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                 <td colspan="3" scope="row" class="text-right">Total</td>
                                 <td><input type="text" class="form-control" id="total" name="total" readonly></td>
                             </tr>
-                        <?php } ?>
                         </tbody>
                     </table>
                     <br>

@@ -78,10 +78,10 @@ class InvoicesUtils
         require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
         $objPHPExcel = new PHPExcel();
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        $fileName = "prueba2.xlsx";
+        $fileName = $_POST["fileName"] . ".xlsx";
         $fileURL = 'Files/' . $fileName;
         $objPHPExcel->setActiveSheetIndex(0);
-        $date = date("d-m-Y");
+        $date = date('d-m-Y',strtotime($_POST["fileDate"]));
         $dbUtils = new DBUtils();
         $sql = "SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id";
         $datas = $dbUtils->getDatas($sql);

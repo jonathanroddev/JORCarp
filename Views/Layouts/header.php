@@ -11,6 +11,7 @@ include_once("Controllers/MainController.php");
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
+    <link rel="stylesheet" href="/Views/Styles/main.css">
     <link rel="stylesheet" href="/Views/Styles/cliente.css">
 </head>
 <body>
@@ -56,4 +57,4 @@ include_once("Controllers/MainController.php");
 </header>
 <main>
 <div class="container">
-<?php include_once ("Views/".$page.".php"); ?>
+<?php include_once("Views/".$page.".php"); ?>

@@ -38,13 +38,35 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
         </div>
         </div>
         </div>
-        <div class="row justify-content-center align-items-center" style="padding-top: 20px">
+        <div class="row justify-content-center align-items-center" style="padding-top: 20px" id="displayDivBtn">
             <div class="col-4">
+                <div class="text-center">
+                    <button type="submit" onclick="displayDiv()" class="btn btn-primary">Exportar facturas a
+                        Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center align-items-center" style="padding-top: 20px;display: none"
+             id="createFile">
+            <div class="col-8">
                 <div class="text-center">
                     <form action="" method="POST" id="exportForm">
                         <input type="hidden" name="exportToExcel"/>
-                        <button type="button" onclick="checkSavedInvoices()" class="btn btn-primary">Exportar facturas a
-                            Excel
+                        <table class="table table-hover table-info">
+                            <thead>
+                            <th scope="col">Fecha:</th>
+                            <th scope="col">Nombre:</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td scope="row"><input type="date" name="fileDate" class="form-control" required></td>
+                                <td scope="row"><input type="text" name="fileName" class="form-control" required></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <button type="submit" onclick="submiBtnClick()" class="btn btn-primary">Crear archivo
                         </button>
                     </form>
                 </div>

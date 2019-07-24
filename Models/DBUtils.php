@@ -35,6 +35,8 @@ class DBUtils
         $_SESSION["fileUploaded"] = false;
         if (isset($_SESSION["fileDirectory"])) unlink($_SESSION["fileDirectory"]);
         $_SESSION["fileDirectory"] = null;
+        if (isset($_SESSION["invoiceExcelFile"])) unlink($_SESSION["invoiceExcelFile"]);
+        $_SESSION["invoiceExcelFile"] = null;
         $this->deleteCustomersTable();
         $this->deleteInvoicesTable();
     }

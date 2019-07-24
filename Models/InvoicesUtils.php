@@ -80,6 +80,7 @@ class InvoicesUtils
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $fileName = $_POST["fileName"] . ".xlsx";
         $fileURL = 'Files/' . $fileName;
+        $_SESSION["invoiceExcelFile"] = $fileURL;
         $objPHPExcel->setActiveSheetIndex(0);
         $date = date('d-m-Y',strtotime($_POST["fileDate"]));
         $dbUtils = new DBUtils();
@@ -91,9 +92,11 @@ class InvoicesUtils
         $activeSheet->getColumnDimension('B')->setWidth(50);
         $activeSheet->getColumnDimension('C')->setWidth(15);
         $activeSheet->getColumnDimension('D')->setWidth(15);
+        $activeSheet->getColumnDimension('K')->setWidth(20);
         $borderStyle = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THICK, 'color' => array('argb' => '#000'),)));
         $headerStyle = array('font' => array('bold' => true,), 'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
         $textAlignStyle = array('alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
+        $allGrossTotal = 0; $allTotal = 0; $grossTotalReferenced = 0; $igicTotalReferenced = 0; $totalReferenced = 0;
         for ($i = 0; $i < sizeof($datas); $i++) {
             $invoice = unserialize($datas[$i]["inv_obj"]);
             $datas[$i]["inv_obj"] = $invoice;
@@ -171,8 +174,20 @@ class InvoicesUtils
 
             $activeSheet->getStyle("A" . $dateCoordinate . ":D" . $totalCoordinate)->applyFromArray($borderStyle);
 
+            $allGrossTotal += $invoice["totals"]["grossTotal"]; $allTotal += $invoice["totals"]["total"];
+            if($datas[$i]["inv_ref"]!=""){
+                $grossTotalReferenced += $invoice["totals"]["grossTotal"];
+                $igicTotalReferenced += $invoice["totals"]["igic"];
+                $totalReferenced = $grossTotalReferenced + $igicTotalReferenced;
+            }
             $dateCoordinate = $dateCoordinate + 25;
         }
+        $activeSheet->setCellValue("K1", "TOTAL BRUTO:");           $activeSheet->setCellValue("L1", $allGrossTotal);
+        $activeSheet->setCellValue("K2", "TOTAL:");                 $activeSheet->setCellValue("L2", $allTotal);
+        $activeSheet->setCellValue("K3", "TOTAL BRUTO REF.:");      $activeSheet->setCellValue("L3", $grossTotalReferenced);
+        $activeSheet->setCellValue("K4", "TOTAL IGIC:");            $activeSheet->setCellValue("L4", $igicTotalReferenced);
+        $activeSheet->setCellValue("K5", "TOTAL REF.:");            $activeSheet->setCellValue("L5", $totalReferenced);
+
         $objWriter->save($fileURL);
         header('Content-Type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=" . $fileName);

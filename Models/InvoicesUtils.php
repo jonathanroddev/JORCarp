@@ -88,6 +88,7 @@ class InvoicesUtils
         $datas = $dbUtils->getDatas($sql);
         $dateCoordinate = 1;
         $activeSheet = $objPHPExcel->getActiveSheet();
+        $activeSheet->setTitle("Facturas");
         $activeSheet->getColumnDimension('A')->setWidth(15);
         $activeSheet->getColumnDimension('B')->setWidth(50);
         $activeSheet->getColumnDimension('C')->setWidth(15);
@@ -187,6 +188,11 @@ class InvoicesUtils
         $activeSheet->setCellValue("K3", "TOTAL BRUTO REF.:");      $activeSheet->setCellValue("L3", $grossTotalReferenced);
         $activeSheet->setCellValue("K4", "TOTAL IGIC:");            $activeSheet->setCellValue("L4", $igicTotalReferenced);
         $activeSheet->setCellValue("K5", "TOTAL REF.:");            $activeSheet->setCellValue("L5", $totalReferenced);
+
+        $activeSheet->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
+        $activeSheet->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+        $activeSheet->getPageSetup()->setFitToPage(true);
+        $activeSheet->getPageSetup()->setPrintArea('A1:D47;A51:D98');
 
         $objWriter->save($fileURL);
         header('Content-Type: application/vnd.ms-excel');

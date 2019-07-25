@@ -61,7 +61,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
                             <tbody>
                             <tr>
                                 <td scope="row"><input type="date" name="fileDate" class="form-control" required></td>
-                                <td scope="row"><input type="text" name="fileName" class="form-control" required></td>
+                                <td scope="row"><input type="text" name="fileName" class="form-control" required autocomplete="off"></td>
                             </tr>
                             </tbody>
                         </table>

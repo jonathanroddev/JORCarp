@@ -48,19 +48,19 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                 <div class="input-group-text">
                                     <input type="checkbox" class="checkbox-invoice" onchange="listInvoice(this)" unchecked>
                                 </div>
-                                <input type="text" class="form-control" id="reference" name="reference" oninput="calculateTotal()" placeholder="Ref." readonly pattern="^\S+$">
+                                <input type="text" class="form-control" id="reference" name="reference" oninput="calculateTotal()" placeholder="Ref." readonly pattern="^\S+$" autocomplete="off">
                             </div>
                         </div>
                             <tr>
                                 <td scope="row"><input type="number" class="form-control" id="quantity1"
                                                        name="quantities[]"
-                                                       oninput="calculateAmount(1)"></td>
+                                                       oninput="calculateAmount(1)" autocomplete="off"></td>
                                 <td><input type="text" class="form-control" id="description1" name="descriptions[]">
                                 </td>
                                 <td><input type="number" class="form-control" id="unitprice1" name="unitprices[]"
-                                           oninput="calculateAmount(1)" step=".01"></td>
+                                           oninput="calculateAmount(1)" step=".01" autocomplete="off"></td>
                                 <td><input type="number" class="form-control" id="amount1" name="amounts[]"
-                                           onkeyup="calculateTotal(1)" step=".01"></td>
+                                           onkeyup="calculateTotal(1)" step=".01" autocomplete="off"></td>
                             </tr>
                             <tr>
                                 <td colspan="3" scope="row" class="text-right">Total Bruto</td>

@@ -62,7 +62,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                         <?php echo $check ?>>
                                 </div>
                                 <input type="text" class="form-control" id="reference" name="reference" value="<?php echo $referenceSaved ?>"
-                                       oninput="calculateTotal()" placeholder="Ref." <?php echo $writable ?> pattern="^\S+$">
+                                       oninput="calculateTotal()" placeholder="Ref." <?php echo $writable ?> pattern="^\S+$" autocomplete="off">
                             </div>
                         </div>
                         <?php
@@ -77,17 +77,17 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                 <td scope="row"><input type="number" class="form-control"
                                                        id="quantity<?php echo($i + 1) ?>" name="quantities[]"
                                                        oninput="calculateAmount(<?php echo($i + 1) ?>)"
-                                                       value="<?php echo $quantity ?>"></td>
+                                                       value="<?php echo $quantity ?>" autocomplete="off"></td>
                                 <td><input type="text" class="form-control" id="description<?php echo($i + 1) ?>"
                                            name="descriptions[]" value="<?php echo $description ?>"></td>
                                 <td><input type="number" class="form-control" id="unitprice<?php echo($i + 1) ?>"
                                            name="unitprices[]"
                                            oninput="calculateAmount(<?php echo($i + 1) ?>)" step=".01"
-                                           value="<?php echo $unitPrice ?>"></td>
+                                           value="<?php echo $unitPrice ?>" autocomplete="off"></td>
                                 <td><input type="number" class="form-control" id="amount<?php echo($i + 1) ?>"
                                            name="amounts[]"
                                            onkeyup="calculateTotal(<?php echo($i + 1) ?>)" step=".01"
-                                           value="<?php echo $amount ?>"></td>
+                                           value="<?php echo $amount ?>" autocomplete="off"></td>
                             </tr>
                         <?php }
                         $grossTotal = $invoice["totals"]["grossTotal"];

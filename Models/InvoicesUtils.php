@@ -58,9 +58,11 @@ class InvoicesUtils
         $invoice = array();
         $invoice["reference"] = $reference;
         for ($i = 0; $i < sizeof($amounts); $i++) {
-            if ($amounts[$i] != "" && $amounts[$i] > 0) {
-                $notion = ["quantity" => $quantities[$i], "description" => $descriptions[$i],
-                    "unitPrice" => $unitPrices[$i], "amount" => $amounts[$i]];
+            if ($amounts[$i] != "" && $amounts[$i] > 0 || $descriptions[$i] != "") {
+                $notion = [
+                    "quantity" => $quantities[$i], "description" => $descriptions[$i],
+                    "unitPrice" => $unitPrices[$i], "amount" => $amounts[$i]
+                ];
                 $invoice["notions"][$i] = $notion;
             }
         }
@@ -82,7 +84,7 @@ class InvoicesUtils
         $fileURL = 'Files/' . $fileName;
         $_SESSION["invoiceExcelFile"] = $fileURL;
         $objPHPExcel->setActiveSheetIndex(0);
-        $date = date('d-m-Y',strtotime($_POST["fileDate"]));
+        $date = date('d-m-Y', strtotime($_POST["fileDate"]));
         $dbUtils = new DBUtils();
         $sql = "SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id";
         $datas = $dbUtils->getDatas($sql);
@@ -97,7 +99,11 @@ class InvoicesUtils
         $borderStyle = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THICK, 'color' => array('argb' => '#000'),)));
         $headerStyle = array('font' => array('bold' => true,), 'alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
         $textAlignStyle = array('alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,));
-        $allGrossTotal = 0; $allTotal = 0; $grossTotalReferenced = 0; $igicTotalReferenced = 0; $totalReferenced = 0;
+        $allGrossTotal = 0;
+        $allTotal = 0;
+        $grossTotalReferenced = 0;
+        $igicTotalReferenced = 0;
+        $totalReferenced = 0;
         for ($i = 0; $i < sizeof($datas); $i++) {
             $invoice = unserialize($datas[$i]["inv_obj"]);
             $datas[$i]["inv_obj"] = $invoice;
@@ -140,7 +146,10 @@ class InvoicesUtils
                 else
                     $activeSheet->setCellValue("C" . $coordinateNotion, $notion["unitPrice"]);
                 $activeSheet->getStyle("C" . $coordinateNotion)->applyFromArray($textAlignStyle);
-                $activeSheet->setCellValue("D" . $coordinateNotion, number_format($notion["amount"], 2, ",", ".") . " €");
+                if ($notion["amount"] != "")
+                    $activeSheet->setCellValue("D" . $coordinateNotion, number_format($notion["amount"], 2, ",", ".") . " €");
+                else
+                    $activeSheet->setCellValue("D" . $coordinateNotion, $notion["amount"]);
                 $activeSheet->getStyle("D" . $coordinateNotion)->applyFromArray($textAlignStyle);
             }
             $sizeOfNotions = sizeof($invoice["notions"]);
@@ -164,9 +173,9 @@ class InvoicesUtils
             $activeSheet->setCellValue("C" . $igicCoordinate, "IGIC 6,5%:");
             $activeSheet->getStyle("C" . $igicCoordinate)->getFont()->setBold(true);
             if ($datas[$i]["inv_ref"] == "")
-            $activeSheet->setCellValue("D" . $igicCoordinate, "");
+                $activeSheet->setCellValue("D" . $igicCoordinate, "");
             else
-            $activeSheet->setCellValue("D" . $igicCoordinate, number_format($invoice["totals"]["igic"], 2, ",", ".") . " €");
+                $activeSheet->setCellValue("D" . $igicCoordinate, number_format($invoice["totals"]["igic"], 2, ",", ".") . " €");
             $activeSheet->getStyle("D" . $igicCoordinate)->applyFromArray($textAlignStyle);
             $activeSheet->setCellValue("C" . $totalCoordinate, "TOTAL");
             $activeSheet->getStyle("C" . $totalCoordinate)->getFont()->setBold(true);
@@ -175,24 +184,30 @@ class InvoicesUtils
 
             $activeSheet->getStyle("A" . $dateCoordinate . ":D" . $totalCoordinate)->applyFromArray($borderStyle);
 
-            $allGrossTotal += $invoice["totals"]["grossTotal"]; $allTotal += $invoice["totals"]["total"];
-            if($datas[$i]["inv_ref"]!=""){
+            $allGrossTotal += $invoice["totals"]["grossTotal"];
+            $allTotal += $invoice["totals"]["total"];
+            if ($datas[$i]["inv_ref"] != "") {
                 $grossTotalReferenced += $invoice["totals"]["grossTotal"];
                 $igicTotalReferenced += $invoice["totals"]["igic"];
                 $totalReferenced = $grossTotalReferenced + $igicTotalReferenced;
             }
             $dateCoordinate = $dateCoordinate + 25;
         }
-        $activeSheet->setCellValue("K1", "TOTAL BRUTO:");           $activeSheet->setCellValue("L1", $allGrossTotal);
-        $activeSheet->setCellValue("K2", "TOTAL:");                 $activeSheet->setCellValue("L2", $allTotal);
-        $activeSheet->setCellValue("K3", "TOTAL BRUTO REF.:");      $activeSheet->setCellValue("L3", $grossTotalReferenced);
-        $activeSheet->setCellValue("K4", "TOTAL IGIC:");            $activeSheet->setCellValue("L4", $igicTotalReferenced);
-        $activeSheet->setCellValue("K5", "TOTAL REF.:");            $activeSheet->setCellValue("L5", $totalReferenced);
+        $activeSheet->setCellValue("K1", "TOTAL BRUTO:");
+        $activeSheet->setCellValue("L1", $allGrossTotal);
+        $activeSheet->setCellValue("K2", "TOTAL:");
+        $activeSheet->setCellValue("L2", $allTotal);
+        $activeSheet->setCellValue("K3", "TOTAL BRUTO REF.:");
+        $activeSheet->setCellValue("L3", $grossTotalReferenced);
+        $activeSheet->setCellValue("K4", "TOTAL IGIC:");
+        $activeSheet->setCellValue("L4", $igicTotalReferenced);
+        $activeSheet->setCellValue("K5", "TOTAL REF.:");
+        $activeSheet->setCellValue("L5", $totalReferenced);
 
         $activeSheet->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
         $activeSheet->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
         $activeSheet->getPageSetup()->setFitToPage(true);
-        $activeSheet->getPageSetup()->setPrintArea('A1:D47;A51:D98');
+        //$activeSheet->getPageSetup()->setPrintArea('A1:D47;A51:D98');
 
         $objWriter->save($fileURL);
         header('Content-Type: application/vnd.ms-excel');

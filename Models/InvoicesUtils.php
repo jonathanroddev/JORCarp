@@ -35,10 +35,11 @@ class InvoicesUtils
             }
 
             $customer = ["name" => $rows[1], "nif" => $rows[2], "address1" => $rows[0], "address2" => $rows[3]];
-            $customer2 = ["name" => $rows[6], "nif" => $rows[7], "address1" => $rows[5], "address2" => $rows[8]];
+            //Comentado porque en una versión previa los datos se recogían de dos bloques de columnas diferentes.
+            //$customer2 = ["name" => $rows[6], "nif" => $rows[7], "address1" => $rows[5], "address2" => $rows[8]];
 
             if ($customer["nif"] != null) array_push($customers, $customer);
-            if ($customer2["nif"] != null) array_push($customers, $customer2);
+            //if ($customer2["nif"] != null) array_push($customers, $customer2);
         }
         $customers = array_filter($customers);
         return $customers;

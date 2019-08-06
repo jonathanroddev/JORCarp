@@ -1,5 +1,6 @@
 <?php
 include_once "DBUtils.php";
+include_once "IncomeUtils.php";
 
 class InvoicesUtils
 {
@@ -89,6 +90,7 @@ class InvoicesUtils
         $dbUtils = new DBUtils();
         $sql = "SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id";
         $datas = $dbUtils->getDatas($sql);
+        $incomeUtils = new IncomeUtils();
         $dateCoordinate = 1;
         $activeSheet = $objPHPExcel->getActiveSheet();
         $activeSheet->setTitle("Facturas");
@@ -107,7 +109,6 @@ class InvoicesUtils
         $totalReferenced = 0;
         for ($i = 0; $i < sizeof($datas); $i++) {
             $invoice = unserialize($datas[$i]["inv_obj"]);
-            $datas[$i]["inv_obj"] = $invoice;
             $nameNifCoordinate = $dateCoordinate + 1;
             $addressNumberInvoiceCoordinate = $dateCoordinate + 2;
             $headerInvoiceCoordinate = $dateCoordinate + 3;
@@ -205,10 +206,12 @@ class InvoicesUtils
         $activeSheet->setCellValue("K5", "TOTAL REF.:");
         $activeSheet->setCellValue("L5", $totalReferenced);
 
-        $activeSheet->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
+        /*$activeSheet->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
         $activeSheet->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
-        $activeSheet->getPageSetup()->setFitToPage(true);
+        $activeSheet->getPageSetup()->setFitToPage(true);*/
         //$activeSheet->getPageSetup()->setPrintArea('A1:D47;A51:D98');
+
+        $incomeUtils->createIncomeSheet($objPHPExcel);
 
         $objWriter->save($fileURL);
         header('Content-Type: application/vnd.ms-excel');

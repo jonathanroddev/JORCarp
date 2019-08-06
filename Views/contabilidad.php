@@ -3,7 +3,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
     ?>
     <div class="row justify-content-center align-items-center" style="padding-top: 75px">
         <div class="col-4">
-            <div class="card bg-light mb-3 text-center" style="max-width: 18rem;">
+            <div class="card bg-light mb-3 text-center">
                 <div class="card-header text-white bg-info"><strong>Contabilidad</strong></div>
                 <div class="card-body">
                     <button type="button" class="btn btn-primary btn-block" onclick="location.href='?page=facturas'">

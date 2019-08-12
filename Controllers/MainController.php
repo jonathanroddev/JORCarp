@@ -1,6 +1,7 @@
 <?php
 include_once("Models/DBUtils.php");
 include_once("Models/InvoicesUtils.php");
+include_once("Models/OutlayUtils.php");
 if (isset($_GET["page"]) && $_GET["page"] != "") {
     $page = $_GET["page"];
     $oneCusAddress = "";
@@ -11,17 +12,18 @@ if (isset($_GET["page"]) && $_GET["page"] != "") {
         $cusAdress1 = $dbUtils->getDatas($sql);
         $oneCusAddress = $cusAdress1[0]["cus_address1"];
     }
-    $titles = array("login" => "Login", "contabilidad" => "Contabilidad", "facturas" => "Facturas", "cliente" => "Cliente: " . $oneCusAddress, "registro" => "Cliente: " . $oneCusAddress);
+    $titles = array("login" => "Login", "contabilidad" => "Contabilidad", "ingresos" => "Ingresos", "factura" => "Cliente: " . $oneCusAddress,
+        "registro" => "Cliente: " . $oneCusAddress, "gastos" => "Gastos", "proveedores" => "Proveedores");
     $title = $titles[$page];
     switch ($page) {
-        case "facturas":
+        case "ingresos":
             $dbUtils = new DBUtils();
             $sql = "SELECT * FROM customers";
             $customers = $dbUtils->getDatas($sql);
             $sql2 = "SELECT * FROM invoices";
             $invoices = $dbUtils->getDatas($sql2);
             break;
-        case "cliente":
+        case "factura":
             $dbUtils = new DBUtils();
             if (isset($_GET["idcliente"])) {
                 $cusId = $_GET["idcliente"];
@@ -32,11 +34,16 @@ if (isset($_GET["page"]) && $_GET["page"] != "") {
                 $sql3 = "SELECT inv_ref FROM invoices WHERE cus_id=" . $cusId;
                 $referenceSavedDB = $dbUtils->getDatas($sql3);
                 $referenceSaved = "";
-                if($referenceSavedDB!=null) $referenceSaved = $referenceSavedDB[0]["inv_ref"];
+                if ($referenceSavedDB != null) $referenceSaved = $referenceSavedDB[0]["inv_ref"];
                 $title = "Cliente: " . $customer[0]["cus_address1"];
             }
-            if ($invoiceSerialized == null) $page = "cliente";
+            if ($invoiceSerialized == null) $page = "factura";
             else $page = "registro";
+            break;
+        case "proveedores":
+            $dbUtils = new DBUtils();
+            $sql = "SELECT * FROM suppliers";
+            $suppliers = $dbUtils->getDatas($sql);
             break;
     }
 } else {
@@ -62,6 +69,10 @@ if (isset($_POST["invoice"])) {
 if (isset($_POST["exportToExcel"])) {
     $invUtils = new InvoicesUtils();
     $invUtils->exportInvoicesToExcel();
+}
+if (isset($_POST["supCifs"])) {
+    $outUtils = new OutlayUtils();
+    $outUtils->createNewSupplier();
 }
 ?>
 

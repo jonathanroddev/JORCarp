@@ -31,10 +31,10 @@ include_once("Controllers/MainController.php");
                     <a class="nav-link" href="?page=contabilidad"><i class="material-icons">home</i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="?page=facturas">Facturas</a>
+                    <a class="nav-link" href="?page=ingresos">Ingresos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Compras</a>
+                    <a class="nav-link" href="?page=gastos">Gastos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Balance</a>

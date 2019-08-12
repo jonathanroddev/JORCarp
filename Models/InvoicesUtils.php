@@ -74,7 +74,7 @@ class InvoicesUtils
         }
         $dbUtils = new DBUtils();
         $dbUtils->insertInvoiceData($idCustomer, $invoice);
-        header("Location:?page=facturas");
+        header("Location:?page=ingresos");
     }
 
     function exportInvoicesToExcel()

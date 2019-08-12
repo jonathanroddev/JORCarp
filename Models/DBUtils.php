@@ -1,6 +1,7 @@
 <?php
 require 'DBConnection.php';
 require 'Controllers/MainController.php';
+
 class DBUtils
 {
     function login()
@@ -104,7 +105,7 @@ class DBUtils
         if ($invoice["notions"] > 0) {
             $invoiceSerialized = serialize($invoice);
             $sql = "DELETE FROM invoices WHERE cus_id = '" . $idCustomer . "';
-                INSERT INTO invoices (cus_id,inv_obj,inv_ref) VALUES ('" . $idCustomer . "','" . $invoiceSerialized . "','".$reference."')";
+                INSERT INTO invoices (cus_id,inv_obj,inv_ref) VALUES ('" . $idCustomer . "','" . $invoiceSerialized . "','" . $reference . "')";
             try {
                 $prepareQuery = $pdoConnection->prepare($sql);
                 $prepareQuery->execute();
@@ -129,5 +130,17 @@ class DBUtils
         }
     }
 
+    function insertDatas($sql)
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+    }
 
 }

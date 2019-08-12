@@ -115,7 +115,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                     <div class="row justify-content-center align-items-center" style="padding-bottom:75px">
                         <div class="col-8">
                             <input type="hidden" name="invoice">
-                            <button type="button" class="btn btn-primary" onclick="location.href='?page=facturas'">
+                            <button type="button" class="btn btn-primary" onclick="location.href='?page=ingresos'">
                                 Atrás
                             </button>
                             <button type="submit" class="btn btn-primary">Guardar</button>

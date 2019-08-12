@@ -26,7 +26,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
                 if ($invoice["cus_id"] == $customer["cus_id"]) $styleButton = "success";
             }
             ?>
-            <button type="button" class="btn btn-<?php echo $styleButton ?> btn-block" onclick="location.href='?page=cliente&idcliente=<?php echo ($customer["cus_id"]); ?>'">
+            <button type="button" class="btn btn-<?php echo $styleButton ?> btn-block" onclick="location.href='?page=factura&idcliente=<?php echo ($customer["cus_id"]); ?>'">
                 <?php echo ($customer["cus_address1"]); ?>
             </button>
         <?php } ?>

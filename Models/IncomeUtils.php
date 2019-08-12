@@ -66,6 +66,5 @@ class IncomeUtils
         $incomeSheet->getStyle("F" . $recordCoordinate)->applyFromArray($headerStyle);
 
         $incomeSheet->getStyle("A" . $headerCoordinate . ":F" . $recordCoordinate)->applyFromArray($borderStyle);
-
     }
 }

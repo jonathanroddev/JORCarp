@@ -130,7 +130,7 @@ class DBUtils
         }
     }
 
-    function insertDatas($sql)
+    function modifyTableDB($sql)
     {
         $dbConn = new DBConnection();
         $pdoConnection = $dbConn->PdoConnection();

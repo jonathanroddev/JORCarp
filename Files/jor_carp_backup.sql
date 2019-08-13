@@ -45,6 +45,22 @@ CREATE TABLE IF NOT EXISTS `invoices` (
 /*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
 /*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
 
+-- Volcando estructura para tabla jor_carp.suppliers
+CREATE TABLE IF NOT EXISTS `suppliers` (
+  `sup_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `sup_name` varchar(255) NOT NULL,
+  `sup_cif` varchar(255) NOT NULL,
+  PRIMARY KEY (`sup_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla jor_carp.suppliers: ~3 rows (aproximadamente)
+/*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
+REPLACE INTO `suppliers` (`sup_id`, `sup_name`, `sup_cif`) VALUES
+	(1, 'LEROY MERLIN', 'B84818442'),
+	(2, 'DISA', 'A38013611'),
+	(3, 'BRICOMART', 'B84406289');
+/*!40000 ALTER TABLE `suppliers` ENABLE KEYS */;
+
 -- Volcando estructura para tabla jor_carp.users
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,

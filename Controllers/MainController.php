@@ -70,9 +70,21 @@ if (isset($_POST["exportToExcel"])) {
     $invUtils = new InvoicesUtils();
     $invUtils->exportInvoicesToExcel();
 }
-if (isset($_POST["supCifs"])) {
+if (isset($_POST["supplier"])) {
     $outUtils = new OutlayUtils();
     $outUtils->createNewSupplier();
+}
+if (isset($_POST["newSupplier"])) {
+    $outUtils = new OutlayUtils();
+    $outUtils->createNewSupplier();
+}
+if (isset($_POST["modSupplier"])) {
+    $outUtils = new OutlayUtils();
+    $outUtils->modifySupplier();
+}
+if (isset($_GET["deleteSup"])) {
+    $outUtils = new OutlayUtils();
+    $outUtils->deleteSupplier();
 }
 ?>
 

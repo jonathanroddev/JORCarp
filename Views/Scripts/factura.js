@@ -7,10 +7,10 @@ function createNotion() {
     let cell2 = row.insertCell(1);
     let cell3 = row.insertCell(2);
     let cell4 = row.insertCell(3);
-    cell1.innerHTML = "<td scope='row'><input type='text' class='form-control' id='quantity" + i + "' name='quantities[]' oninput='calculateAmount(" + i + ")'></td>";
-    cell2.innerHTML = "<td><input type='text' class='form-control' id='description" + i + "' name='descriptions[]'></td>";
-    cell3.innerHTML = "<td><input type='text' class='form-control' id='unitprice" + i + "' name='unitprices[]' oninput='calculateAmount(" + i + ")'></td>";
-    cell4.innerHTML = "<td><input type='text' class='form-control' id='amount" + i + "' name='amounts[]' onkeyup='calculateTotal(" + i + ")'></td>";
+    cell1.innerHTML = "<td scope='row'><input type='number' class='form-control' id='quantity" + i + "' name='quantities[]' oninput='calculateAmount(" + i + ")' autocomplete='off'></td>";
+    cell2.innerHTML = "<td scope='row'><input type='text' class='form-control' id='description" + i + "' name='descriptions[]'></td>";
+    cell3.innerHTML = "<td scope='row'><input type='number' class='form-control' id='unitprice" + i + "' name='unitprices[]' oninput='calculateAmount(" + i + ")' autocomplete='off'></td>";
+    cell4.innerHTML = "<td scope='row'><input type='number' class='form-control' id='amount" + i + "' name='amounts[]' onkeyup='calculateTotal(" + i + ")' autocomplete='off'></td>";
     i++;
 }
 
@@ -22,10 +22,10 @@ function createNotionSavedInvoice(e) {
     let cell2 = row.insertCell(1);
     let cell3 = row.insertCell(2);
     let cell4 = row.insertCell(3);
-    cell1.innerHTML = "<td scope='row'><input type='text' class='form-control' id='quantity" + j + "' name='quantities[]' oninput='calculateAmount(" + j + ")'></td>";
-    cell2.innerHTML = "<td><input type='text' class='form-control' id='description" + j + "' name='descriptions[]'></td>";
-    cell3.innerHTML = "<td><input type='text' class='form-control' id='unitprice" + j + "' name='unitprices[]' oninput='calculateAmount(" + j + ")'></td>";
-    cell4.innerHTML = "<td><input type='text' class='form-control' id='amount" + j + "' name='amounts[]' onkeyup='calculateTotal(" + j + ")'></td>";
+    cell1.innerHTML = "<td scope='row'><input type='number' class='form-control' id='quantity" + j + "' name='quantities[]' oninput='calculateAmount(" + j + ")' autocomplete='off'></td>";
+    cell2.innerHTML = "<td scope='row'><input type='text' class='form-control' id='description" + j + "' name='descriptions[]'></td>";
+    cell3.innerHTML = "<td scope='row'><input type='number' class='form-control' id='unitprice" + j + "' name='unitprices[]' oninput='calculateAmount(" + j + ")' autocomplete='off'></td>";
+    cell4.innerHTML = "<td scope='row'><input type='number' class='form-control' id='amount" + j + "' name='amounts[]' onkeyup='calculateTotal(" + j + ")' autocomplete='off'></td>";
     e.value = parseInt(j) + 1;
 }
 

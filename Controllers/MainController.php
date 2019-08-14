@@ -1,7 +1,7 @@
 <?php
 include_once("Models/DBUtils.php");
 include_once("Models/InvoicesUtils.php");
-include_once("Models/OutlayUtils.php");
+include_once("Models/OutgoingUtils.php");
 if (isset($_GET["page"]) && $_GET["page"] != "") {
     $page = $_GET["page"];
     $oneCusAddress = "";
@@ -13,7 +13,7 @@ if (isset($_GET["page"]) && $_GET["page"] != "") {
         $oneCusAddress = $cusAdress1[0]["cus_address1"];
     }
     $titles = array("login" => "Login", "contabilidad" => "Contabilidad", "ingresos" => "Ingresos", "factura" => "Cliente: " . $oneCusAddress,
-        "registro" => "Cliente: " . $oneCusAddress, "gastos" => "Gastos", "proveedores" => "Proveedores");
+        "registro" => "Cliente: " . $oneCusAddress, "gastos" => "Gastos", "proveedores" => "Proveedores", "compras" => "Compras del mes");
     $title = $titles[$page];
     switch ($page) {
         case "ingresos":
@@ -41,6 +41,7 @@ if (isset($_GET["page"]) && $_GET["page"] != "") {
             else $page = "registro";
             break;
         case "proveedores":
+        case "compras":
             $dbUtils = new DBUtils();
             $sql = "SELECT * FROM suppliers";
             $suppliers = $dbUtils->getDatas($sql);
@@ -71,19 +72,19 @@ if (isset($_POST["exportToExcel"])) {
     $invUtils->exportInvoicesToExcel();
 }
 if (isset($_POST["supplier"])) {
-    $outUtils = new OutlayUtils();
+    $outUtils = new OutgoingUtils();
     $outUtils->createNewSupplier();
 }
 if (isset($_POST["newSupplier"])) {
-    $outUtils = new OutlayUtils();
+    $outUtils = new OutgoingUtils();
     $outUtils->createNewSupplier();
 }
 if (isset($_POST["modSupplier"])) {
-    $outUtils = new OutlayUtils();
+    $outUtils = new OutgoingUtils();
     $outUtils->modifySupplier();
 }
 if (isset($_GET["deleteSup"])) {
-    $outUtils = new OutlayUtils();
+    $outUtils = new OutgoingUtils();
     $outUtils->deleteSupplier();
 }
 ?>

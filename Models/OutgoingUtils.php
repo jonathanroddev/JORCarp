@@ -1,7 +1,7 @@
 <?php
 include_once "DBUtils.php";
 
-class OutlayUtils
+class OutgoingUtils
 {
     function createNewSupplier()
     {

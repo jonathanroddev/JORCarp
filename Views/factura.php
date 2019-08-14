@@ -21,10 +21,10 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
     <div class="row justify-content-center align-items-center" style="padding-top: 25px">
         <div class="col-8">
             <div class="text-center">
-                    <button type="button" class="btn btn-primary" onclick="createNotion()">Añadir
-                        otro
-                        concepto
-                    </button>
+                <button type="button" class="btn btn-primary" onclick="createNotion()">Añadir
+                    otro
+                    concepto
+                </button>
             </div>
         </div>
     </div>
@@ -42,39 +42,44 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                         </tr>
                         </thead>
                         <tbody>
-                      <div class="input-group mb-3">
+                        <div class="input-group mb-3">
                             <input type="text" class="form-control" readonly style="visibility: hidden">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
-                                    <input type="checkbox" class="checkbox-invoice" onchange="listInvoice(this)" unchecked>
+                                    <input type="checkbox" class="checkbox-invoice" onchange="listInvoice(this)"
+                                           unchecked>
                                 </div>
-                                <input type="text" class="form-control" id="reference" name="reference" oninput="calculateTotal()" placeholder="Ref." readonly pattern="^\S+$" autocomplete="off">
+                                <input type="text" class="form-control" id="reference" name="reference"
+                                       oninput="calculateTotal()" placeholder="Ref." readonly pattern="^\S+$"
+                                       autocomplete="off">
                             </div>
                         </div>
-                            <tr>
-                                <td scope="row"><input type="number" class="form-control" id="quantity1"
-                                                       name="quantities[]"
-                                                       oninput="calculateAmount(1)" autocomplete="off"></td>
-                                <td><input type="text" class="form-control" id="description1" name="descriptions[]">
-                                </td>
-                                <td><input type="number" class="form-control" id="unitprice1" name="unitprices[]"
-                                           oninput="calculateAmount(1)" step=".01" autocomplete="off"></td>
-                                <td><input type="number" class="form-control" id="amount1" name="amounts[]"
-                                           onkeyup="calculateTotal(1)" step=".01" autocomplete="off"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" scope="row" class="text-right">Total Bruto</td>
-                                <td><input type="text" class="form-control" id="grosstotal" name="grosstotal" readonly>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" scope="row" class="text-right">IGIC 6,5%</td>
-                                <td><input type="text" class="form-control" id="igic" name="igic" readonly></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" scope="row" class="text-right">Total</td>
-                                <td><input type="text" class="form-control" id="total" name="total" readonly></td>
-                            </tr>
+                        <tr>
+                            <td scope="row"><input type="number" class="form-control" id="quantity1"
+                                                   name="quantities[]"
+                                                   oninput="calculateAmount(1)" autocomplete="off"></td>
+                            <td scope="row"><input type="text" class="form-control" id="description1"
+                                                   name="descriptions[]">
+                            </td>
+                            <td scope="row"><input type="number" class="form-control" id="unitprice1"
+                                                   name="unitprices[]"
+                                                   oninput="calculateAmount(1)" step=".01" autocomplete="off"></td>
+                            <td scope="row"><input type="number" class="form-control" id="amount1" name="amounts[]"
+                                                   onkeyup="calculateTotal(1)" step=".01" autocomplete="off"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" scope="row" class="text-right">Total Bruto</td>
+                            <td><input type="text" class="form-control" id="grosstotal" name="grosstotal" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" scope="row" class="text-right">IGIC 6,5%</td>
+                            <td><input type="text" class="form-control" id="igic" name="igic" readonly></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" scope="row" class="text-right">Total</td>
+                            <td><input type="text" class="form-control" id="total" name="total" readonly></td>
+                        </tr>
                         </tbody>
                     </table>
                     <br>

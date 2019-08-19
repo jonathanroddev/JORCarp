@@ -1,49 +1,87 @@
 <?php
-include_once "DBUtils.php";
-include_once "IncomeUtils.php";
+include_once "DBConnection.php";
+include_once "Income.php";
 
-class InvoicesUtils
+class Invoice
 {
-    function uploadCustomersData()
+    function getAllFromInvoices()
     {
-        $dbUtils = new DBUtils();
-        $uploadTo = 'Files/';
-        $uploadCustomersFile = $uploadTo . basename($_FILES['customersFile']['name']);
-        move_uploaded_file($_FILES['customersFile']['tmp_name'], $uploadCustomersFile);
-        $_SESSION["fileDirectory"] = $uploadCustomersFile;
-        $customers = $this->exportCustomersFromExcel($uploadCustomersFile);
-        $dbUtils->insertCustomersDatas($customers);
-        $_SESSION["fileUploaded"] = true;
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $sql = "SELECT * FROM invoices";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+            $result = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+        return $result;
     }
 
-    function exportCustomersFromExcel($customersFileName)
+    function getInvoiceFromInvoices($cusId)
     {
-        require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
-        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-        $objPHPExcel = $objReader->load($customersFileName);
-        $objWorksheet = $objPHPExcel->getActiveSheet();
-
-        $highestRow = $objWorksheet->getHighestRow();
-        $highestColumn = $objWorksheet->getHighestColumn();
-
-        $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-        $rows = array();
-        $customers = array();
-        for ($row = 1; $row <= $highestRow; ++$row) {
-            for ($col = 0; $col <= $highestColumnIndex; ++$col) {
-                $rows[$col] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
-                array_push($rows, $rows[$col]);
-            }
-
-            $customer = ["name" => $rows[1], "nif" => $rows[2], "address1" => $rows[0], "address2" => $rows[3]];
-            //Comentado porque en una versión previa los datos se recogían de dos bloques de columnas diferentes.
-            //$customer2 = ["name" => $rows[6], "nif" => $rows[7], "address1" => $rows[5], "address2" => $rows[8]];
-
-            if ($customer["nif"] != null) array_push($customers, $customer);
-            //if ($customer2["nif"] != null) array_push($customers, $customer2);
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $sql = "SELECT inv_obj FROM invoices WHERE cus_id=" . $cusId;
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+            $result = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
         }
-        $customers = array_filter($customers);
-        return $customers;
+        return $result;
+    }
+
+    function getReferenceFromInvoices($cusId)
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $sql = "SELECT inv_ref FROM invoices WHERE cus_id=" . $cusId;
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+            $result = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+        return $result;
+    }
+
+    function getReferencedInvoices()
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $sql = "SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id WHERE inv_ref != '' ";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+            $result = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+        return $result;
+    }
+
+    function getAllFromInvoicesAndCustomers()
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $sql = "SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+            $result = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+        return $result;
     }
 
     function uploadInvoiceData()
@@ -72,9 +110,27 @@ class InvoicesUtils
             $totals = ["grossTotal" => $grossTotal, "igic" => $igic, "total" => $total];
             $invoice["totals"] = $totals;
         }
-        $dbUtils = new DBUtils();
-        $dbUtils->insertInvoiceData($idCustomer, $invoice);
+        $this->insertInvoiceData($idCustomer, $invoice);
         header("Location:?page=ingresos");
+    }
+
+    function insertInvoiceData($idCustomer, $invoice)
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        $reference = $invoice["reference"];
+        if ($invoice["notions"] > 0) {
+            $invoiceSerialized = serialize($invoice);
+            $sql = "DELETE FROM invoices WHERE cus_id = '" . $idCustomer . "';
+                INSERT INTO invoices (cus_id,inv_obj,inv_ref) VALUES ('" . $idCustomer . "','" . $invoiceSerialized . "','" . $reference . "')";
+            try {
+                $prepareQuery = $pdoConnection->prepare($sql);
+                $prepareQuery->execute();
+            } catch (Exception $e) {
+                echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+                return false;
+            }
+        }
     }
 
     function exportInvoicesToExcel()
@@ -87,10 +143,8 @@ class InvoicesUtils
         $_SESSION["invoiceExcelFile"] = $fileURL;
         $objPHPExcel->setActiveSheetIndex(0);
         $date = date('d-m-Y', strtotime($_POST["fileDate"]));
-        $dbUtils = new DBUtils();
-        $sql = "SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id";
-        $datas = $dbUtils->getDatas($sql);
-        $incomeUtils = new IncomeUtils();
+        $datas = $this->getAllFromInvoicesAndCustomers();
+        $incomeUtils = new Income();
         $dateCoordinate = 1;
         $activeSheet = $objPHPExcel->getActiveSheet();
         $activeSheet->setTitle("Facturas");
@@ -219,5 +273,19 @@ class InvoicesUtils
         header('Cache-Control: cache, must-revalidate');
         $objWriter->save("php://output");
         exit;
+    }
+
+    function deleteInvoicesTable()
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $sql = " TRUNCATE table invoices;";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
     }
 }

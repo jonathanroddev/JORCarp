@@ -66,3 +66,7 @@ function calculateAmountOutgoings() {
 function calculateTotalOutgoings() {
 
 }
+
+function getCookieSuppliers() {
+    let suppliers = getCookie("suppliers");
+}

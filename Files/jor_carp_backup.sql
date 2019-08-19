@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
 CREATE TABLE IF NOT EXISTS `invoices` (
   `inv_id` int(11) NOT NULL AUTO_INCREMENT,
   `inv_obj` text NOT NULL,
-  `cus_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `cus_id` int(11) unsigned NOT NULL DEFAULT '0',
   `inv_ref` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`inv_id`),
   KEY `fk_cus_id` (`cus_id`),
@@ -44,6 +44,19 @@ CREATE TABLE IF NOT EXISTS `invoices` (
 -- Volcando datos para la tabla jor_carp.invoices: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
 /*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
+
+-- Volcando estructura para tabla jor_carp.outgoings
+CREATE TABLE IF NOT EXISTS `outgoings` (
+  `out_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `sup_id` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`out_id`),
+  KEY `sup_id` (`sup_id`),
+  CONSTRAINT `sup_id` FOREIGN KEY (`sup_id`) REFERENCES `suppliers` (`sup_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla jor_carp.outgoings: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `outgoings` DISABLE KEYS */;
+/*!40000 ALTER TABLE `outgoings` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jor_carp.suppliers
 CREATE TABLE IF NOT EXISTS `suppliers` (
@@ -72,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla jor_carp.users: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla jor_carp.users: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 REPLACE INTO `users` (`user_id`, `user_name`, `user_mail`, `user_password`, `user_status`, `user_privilege`) VALUES
 	(1, 'José', 'jorcarp@webmaster.com', '662eaa47199461d01a623884080934ab', 1, 1);

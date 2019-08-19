@@ -1,13 +1,13 @@
 <?php
-include_once "DBUtils.php";
+include_once "DBConnection.php";
+include_once "Invoice.php";
 
-class IncomeUtils
+class Income
 {
     function createIncomeSheet($objPHPExcel)
     {
-        $dbUtils = new DBUtils();
-        $sql = "SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id WHERE inv_ref != '' ";
-        $datas = $dbUtils->getDatas($sql);
+        $invoice = new Invoice();
+        $datas = $invoice->getReferencedInvoices();
         $incomeSheet = $objPHPExcel->createSheet(1);
         $incomeSheet->setTitle("Ingresos");
         $incomeSheet->getDefaultColumnDimension()->setWidth(20);

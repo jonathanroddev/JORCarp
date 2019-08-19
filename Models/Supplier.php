@@ -83,6 +83,10 @@ class Supplier
     }
 
     function setCookieSuppliers($suppliers){
-        setcookie("suppliers",$suppliers);
+        $stringCookie = "";
+        /*for ($i = 0; $i < sizeof($suppliers); $i++) {
+            $stringCookie .= $suppliers[$i]["sup_id"] . "=>" . $suppliers[$i]["sup_name"] . "|";
+        }*/
+        setcookie("suppliers",json_encode($suppliers));
     }
 }

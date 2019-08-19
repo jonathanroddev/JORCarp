@@ -44,6 +44,15 @@ function submitForms() {
 let indexRow = 2;
 
 function createRowNewOutgoingInvoice() {
+    let suppliers = getCookieSuppliers();
+    let options = "";
+    //console.log (suppliers);
+    for (let i = 0; i < suppliers.length; i++) {
+        let supplierId = suppliers[i].sup_id;
+        let supplierName = suppliers[i].sup_name.replace(/\+/g, ' ');
+        options += "<option value='" + supplierId + "'>" + supplierName + "</option>"
+    }
+    ;
     let table = document.getElementById("outgoings");
     let row = table.insertRow(indexRow);
     let cell1 = row.insertCell(0);
@@ -51,7 +60,7 @@ function createRowNewOutgoingInvoice() {
     let cell3 = row.insertCell(2);
     let cell4 = row.insertCell(3);
     let cell5 = row.insertCell(4);
-    cell1.innerHTML = "<td scope='row'><select class='form-control' id='sup" + indexRow + "' name='suppliers[]'><option selected value='0'>Proveedor...</option> <?php for ($i = 0; $i < sizeof($suppliers); $i++) { ?> <option value='<?php echo $suppliers[$i][&quot;sup_id&quot;] ?>'><?php echo $suppliers[$i]['sup_name'] ?></option> <?php } ?> </select></td>";
+    cell1.innerHTML = "<td scope='row'><select class='form-control' id='sup" + indexRow + "' name='suppliers[]'><option selected value='0'>Proveedor...</option> " + options + "</select></td>";
     cell2.innerHTML = "<td scope='row'><input type='text' class='form-control' id='outref" + indexRow + "' name='outgoingsreferences[]' autocomplete='off'></td>";
     cell3.innerHTML = "<td scope='row'><input type='text' class='form-control' id='outgross" + indexRow + "' name='outgoingsgross[]' oninput='calculateAmount(" + i + ")' autocomplete='off'></td>";
     cell4.innerHTML = "<td scope='row'><input type='text' class='form-control' id='outigic" + indexRow + "' name='outgoingsigic[]' onkeyup='calculateTotal(" + i + ")' autocomplete='off'></td>";
@@ -68,5 +77,15 @@ function calculateTotalOutgoings() {
 }
 
 function getCookieSuppliers() {
-    let suppliers = getCookie("suppliers");
+    let name = "suppliers";
+    let cookieArr = document.cookie.split(";");
+    let suppliers = null;
+    for (let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+
+        if (name == cookiePair[0].trim()) {
+            suppliers = JSON.parse(decodeURIComponent(cookiePair[1]));
+        }
+    }
+    return suppliers;
 }

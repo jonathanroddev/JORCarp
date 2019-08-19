@@ -17,11 +17,6 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                         onclick="createRowNewSupplier(this)">Añadir otro
                     proveedor
                 </button>
-
-                <button type="button" class="btn btn-primary"
-                        onclick="getCookieSuppliers()">Ver Cookie Consola
-                </button>
-
             </div>
         </div>
     </div>

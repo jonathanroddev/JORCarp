@@ -86,7 +86,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                            value="<?php echo $unitPrice ?>" autocomplete="off"></td>
                                 <td scope="row"><input type="number" class="form-control" id="amount<?php echo($i + 1) ?>"
                                            name="amounts[]"
-                                           onkeyup="calculateTotal(<?php echo($i + 1) ?>)" step=".01"
+                                           onkeyup="calculateTotal()" step=".01"
                                            value="<?php echo $amount ?>" autocomplete="off"></td>
                             </tr>
                         <?php }

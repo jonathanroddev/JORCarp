@@ -65,7 +65,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                                    name="unitprices[]"
                                                    oninput="calculateAmount(1)" step=".01" autocomplete="off"></td>
                             <td scope="row"><input type="number" class="form-control" id="amount1" name="amounts[]"
-                                                   onkeyup="calculateTotal(1)" step=".01" autocomplete="off"></td>
+                                                   onkeyup="calculateTotal()" step=".01" autocomplete="off"></td>
                         </tr>
                         <tr>
                             <td colspan="3" scope="row" class="text-right">Total Bruto</td>

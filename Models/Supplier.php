@@ -26,8 +26,7 @@ class Supplier
         $dbUtils = new DBUtils();
         for ($i = 0; $i < sizeof($cifs); $i++) {
             if ($cifs[$i] != "" && $names[$i] != "") {
-                $sqlVerification = "SELECT * FROM suppliers WHERE sup_cif = '" . $cifs[$i] . "'";
-                $datas = $dbUtils->getDatas($sqlVerification);
+                $datas = $this->getAllFromSingleSupplier($cifs[$i]);
                 if (!isset($datas[0])) {
                     $dbConn = new DBConnection();
                     $pdoConnection = $dbConn->PdoConnection();
@@ -43,6 +42,22 @@ class Supplier
             }
         }
         header("Location:?page=proveedores");
+    }
+
+    function getAllFromSingleSupplier($cif)
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $sql = "SELECT * FROM suppliers WHERE sup_cif = '" . $cif . "'";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+            $result = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+        return $result;
     }
 
     function modifySupplier()
@@ -83,10 +98,6 @@ class Supplier
     }
 
     function setCookieSuppliers($suppliers){
-        $stringCookie = "";
-        /*for ($i = 0; $i < sizeof($suppliers); $i++) {
-            $stringCookie .= $suppliers[$i]["sup_id"] . "=>" . $suppliers[$i]["sup_name"] . "|";
-        }*/
         setcookie("suppliers",json_encode($suppliers));
     }
 }

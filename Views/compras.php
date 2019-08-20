@@ -18,48 +18,55 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
         </div>
     </div>
     <div class="row justify-content-center align-items-center" style="padding-top: 25px">
-        <div class="col-8">
+        <div class="col-16">
             <div class="text-center">
-                <form method="POST" action="" id="saveOutgoings"></form>
-                <form method="POST" action="?page=compras&deleteOutgoing=true" id="delOut"></form>
-                <table class="table table-hover table-primary" id="outgoings">
+                <form method="POST" action="" id="saveOutgoingForm"></form>
+                <table class="table table-hover table-primary" id="outgoing">
                     <thead>
                     <tr>
-                        <th scope="col" style="width:30%">Proveedor</th>
-                        <th scope="col" style="width:25%">Nº REF.</th>
-                        <th scope="col" style="width:15%">Total Bruto</th>
-                        <th scope="col" style="width:15%">IGIC</th>
-                        <th scope="col" style="width:15%">Total</th>
+                        <th scope="col" style="width:25%">Proveedor</th>
+                        <th scope="col" style="width:20%">Nº REF.</th>
+                        <th scope="col" style="width:20%">Fecha</th>
+                        <th scope="col" style="width:11%">Total Bruto</th>
+                        <th scope="col" style="width:11%">IGIC</th>
+                        <th scope="col" style="width:11%">Total</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td scope="row"><select class="form-control" id="sup1" name="suppliers[]">
+                        <td scope="row"><select class="form-control" id="sup1" name="suppliers[]" form="saveOutgoingForm">
                                 <option selected value="0">Proveedor...</option>
                                 <?php for ($i = 0; $i < sizeof($suppliers); $i++) { ?>
                                     <option value="<?php echo $suppliers[$i]["sup_id"] ?>"><?php echo $suppliers[$i]["sup_name"] ?></option>
                                 <?php } ?>
                             </select></td>
                         <td scope="row"><input type="text" class="form-control" id="outref1"
-                                               name="outgoingsreferences[]" autocomplete="off"></td>
-                        <td><input type="number" class="form-control" id="outgross1" name="outgoingsgross[]"
-                                   oninput="calculateAmountOutgoings(1)" autocomplete='off'>
+                                               name="outgoingreferences[]" form="saveOutgoingForm" autocomplete="off" required></td>
+                        <td scope="row"><input type="date" class="form-control" id="outdate1" name="outgoingdates[]" form="saveOutgoingForm" required></td>
+                        <td><input type="number" class="form-control" id="outgross1" name="outgoinggross[]" form="saveOutgoingForm"
+                                   oninput="calculateTotalSingleOutgoing(1)" step=".01" autocomplete='off'>
                         </td>
-                        <td><input type="number" class="form-control" id="outigic1" name="outgoingsigic[]"
-                                   oninput="calculateAmountOutgoings(1)" step=".01" autocomplete="off"></td>
-                        <td><input type="number" class="form-control" id="outtotal1" name="outgoingtotals[]"
-                                   onkeyup="calculateTotalOutgoings(1)" step=".01" autocomplete="off"></td>
+                        <td><input type="number" class="form-control" id="outigic1" name="outgoingigic[]" form="saveOutgoingForm"
+                                   oninput="calculateTotalSingleOutgoing(1)" step=".01" autocomplete="off"></td>
+                        <td><input type="text" class="form-control" id="outtotal1" name="outgoingtotals[]" form="saveOutgoingForm" step=".01" autocomplete="off" readonly></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" scope="row" class=" text-right font-weight-bold" style="vertical-align: middle">Suma de Totales</td>
+                        <td><input type="text" class="form-control" id="outallgross" name="outallgross" readonly>
+                        <td><input type="text" class="form-control" id="outalligic" name="outalligic" readonly>
+                        <td><input type="text" class="form-control" id="outalltotal" name="outalltotal" readonly>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
                 <br>
                 <div class="row justify-content-center align-items-center" style="padding-bottom:75px">
                     <div class="col-8">
-                        <input type="hidden" name="newSupplier" form="saveOutgoings">
+                        <input type="hidden" name="saveOutgoing" form="saveOutgoingForm">
                         <button type="button" class="btn btn-primary" onclick="location.href='?page=gastos'">
                             Atrás
                         </button>
-                        <button type="submit" class="btn btn-primary" form="saveOutgoings">Guardar</button>
+                        <button type="submit" class="btn btn-primary" form="saveOutgoingForm">Guardar y exportar</button>
                     </div>
                 </div>
             </div>

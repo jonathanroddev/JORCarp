@@ -85,5 +85,9 @@ if (isset($_GET["deleteSup"])) {
     $supplier = new Supplier();
     $supplier->deleteSupplier();
 }
+if (isset($_POST["saveOutgoing"])) {
+    $outgoing = new Outgoing();
+    $outgoing->saveOutgoingInDB();
+}
 ?>
 

@@ -90,6 +90,9 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                            value="<?php echo $amount ?>" autocomplete="off"></td>
                             </tr>
                         <?php }
+                        if(!isset($invoice["totals"])){
+                            $grossTotal = ""; $igic = ""; $total = "";
+                        }
                         $grossTotal = $invoice["totals"]["grossTotal"];
                         $igic = $invoice["totals"]["igic"];
                         $total = $invoice["totals"]["total"];

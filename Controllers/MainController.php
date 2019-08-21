@@ -14,7 +14,8 @@ if (isset($_GET["page"]) && $_GET["page"] != "") {
         $oneCusAddress = $cusAdress1[0]["cus_address1"];
     }
     $titles = array("login" => "Login", "contabilidad" => "Contabilidad", "ingresos" => "Ingresos", "factura" => "Cliente: " . $oneCusAddress,
-        "registro" => "Cliente: " . $oneCusAddress, "gastos" => "Gastos", "proveedores" => "Proveedores", "compras" => "Compras del mes");
+        "registrofactura" => "Cliente: " . $oneCusAddress, "gastos" => "Gastos", "proveedores" => "Proveedores", "compras" => "Compras del mes",
+        "registrocompras" => "Registro del mes");
     $title = $titles[$page];
     switch ($page) {
         case "ingresos":
@@ -36,13 +37,20 @@ if (isset($_GET["page"]) && $_GET["page"] != "") {
                 $title = "Cliente: " . $customer[0]["cus_address1"];
             }
             if ($invoiceSerialized == null) $page = "factura";
-            else $page = "registro";
+            else $page = "registrofactura";
             break;
         case "proveedores":
-        case "compras":
             $supplier = new Supplier();
             $suppliers = $supplier->getAllFromSuppliers();
+            break;
+        case "compras":
+            $supplier = new Supplier();
+            $outgoing = new Outgoing();
+            $suppliers = $supplier->getAllFromSuppliers();
             $supplier->setCookieSuppliers($suppliers);
+            $allOutgoingSaved = $outgoing->getAllFromOutgoing();
+            if ($allOutgoingSaved == null) $page = "compras";
+            else $page = "registrocompras";
             break;
     }
 } else {

@@ -21,19 +21,57 @@ class Outgoing
                 $gross = $allGross[$i];
                 $igic = $allIgic[$i];
                 $total = $allTotals[$i];
-                if ($references[$i] != "") {
-                    //Poner aquí condición para que en caso de que la referencia ya esté en la BBDD, haga UPDATE y no INSERT
+                if (!$this->getOutgoing($reference)) {
                     $sql = "INSERT INTO outgoing (sup_id, out_ref, out_date, out_gross, out_igic, out_total) VALUES (
                     " . $supplier . ", '" . $reference . "', '" . $date . "',
                     " . floatval($gross) . ", " . floatval($igic) . ", " . floatval($total) . ")";
-                    //echo $sql;
-                    $prepareQuery = $pdoConnection->prepare($sql);
-                    $prepareQuery->execute();
                 }
+                else{
+                    $sql = "UPDATE outgoing SET sup_id =" . $supplier . ", out_date = '" . $date . "',
+                    out_gross = " . floatval($gross) . ", out_igic = " . floatval($igic) . ", out_total = " . floatval($total) .
+                    " WHERE out_ref = '" . $reference . "'";
+                }
+                $prepareQuery = $pdoConnection->prepare($sql);
+                $prepareQuery->execute();
             }
+            header("Location:?page=gastos");
         } catch (Exception $e) {
             echo '<hr>Reading Error: (' . $e->getMessage() . ')';
             return false;
         }
+    }
+
+    function getOutgoing($reference)
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        $result = false;
+        try {
+            $sql = "SELECT * FROM outgoing WHERE out_ref = '" . $reference . "'";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+            $outgoing = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
+            if (isset($outgoing[0])) $result = true;
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+        return $result;
+    }
+
+    function getAllFromOutgoing()
+    {
+        $dbConn = new DBConnection();
+        $pdoConnection = $dbConn->PdoConnection();
+        try {
+            $sql = "SELECT * FROM outgoing";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+            $result = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+        return $result;
     }
 }

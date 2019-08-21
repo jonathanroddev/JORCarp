@@ -34,8 +34,8 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                     </thead>
                     <tbody>
                     <tr>
-                        <td scope="row"><select class="form-control" id="sup1" name="suppliers[]" form="saveOutgoingForm">
-                                <option selected value="0">Proveedor...</option>
+                        <td scope="row"><select class="form-control" id="sup1" name="suppliers[]" form="saveOutgoingForm" required>
+                                <option selected value="">Proveedor...</option>
                                 <?php for ($i = 0; $i < sizeof($suppliers); $i++) { ?>
                                     <option value="<?php echo $suppliers[$i]["sup_id"] ?>"><?php echo $suppliers[$i]["sup_name"] ?></option>
                                 <?php } ?>
@@ -44,7 +44,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                                name="outgoingreferences[]" form="saveOutgoingForm" autocomplete="off" required></td>
                         <td scope="row"><input type="date" class="form-control" id="outdate1" name="outgoingdates[]" form="saveOutgoingForm" required></td>
                         <td><input type="number" class="form-control" id="outgross1" name="outgoinggross[]" form="saveOutgoingForm"
-                                   oninput="calculateTotalSingleOutgoing(1)" step=".01" autocomplete='off'>
+                                   oninput="calculateTotalSingleOutgoing(1)" step=".01" autocomplete="off" required>
                         </td>
                         <td><input type="number" class="form-control" id="outigic1" name="outgoingigic[]" form="saveOutgoingForm"
                                    oninput="calculateTotalSingleOutgoing(1)" step=".01" autocomplete="off"></td>
@@ -66,9 +66,28 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                         <button type="button" class="btn btn-primary" onclick="location.href='?page=gastos'">
                             Atrás
                         </button>
-                        <button type="submit" class="btn btn-primary" form="saveOutgoingForm">Guardar y exportar</button>
+                        <button type="button" class="btn btn-primary" onclick="displayDivOutgoing()" id="saveoutbtn">Guardar y exportar</button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center align-items-center" style="padding-top: 20px;display: none;" id="createOutgoingFile">
+        <div class="col-4">
+            <div class="text-center">
+                    <table class="table table-hover table-info">
+                        <thead>
+                        <th scope="col">Nombre del documento:</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td scope="row"><input type="text" name="outgoingFileName" class="form-control" form="saveOutgoingForm" required autocomplete="off"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <button type="submit" form="saveOutgoingForm" class="btn btn-primary">Crear archivo
+                    </button>
             </div>
         </div>
     </div>

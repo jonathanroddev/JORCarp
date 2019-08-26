@@ -1,13 +1,10 @@
 <?php
-include_once "DBConnection.php";
-include_once "Income.php";
-
+include_once ("Income.php");
 class Invoice
 {
-    function getAllFromInvoices()
+    public static function getAllFromInvoices()
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $sql = "SELECT * FROM invoices";
             $prepareQuery = $pdoConnection->prepare($sql);
@@ -20,10 +17,9 @@ class Invoice
         return $result;
     }
 
-    function getInvoiceFromInvoices($cusId)
+    public static function getInvoiceFromInvoices($cusId)
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $sql = "SELECT inv_obj FROM invoices WHERE cus_id=" . $cusId;
             $prepareQuery = $pdoConnection->prepare($sql);
@@ -36,10 +32,9 @@ class Invoice
         return $result;
     }
 
-    function getReferenceFromInvoices($cusId)
+    public static function getReferenceFromInvoices($cusId)
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $sql = "SELECT inv_ref FROM invoices WHERE cus_id=" . $cusId;
             $prepareQuery = $pdoConnection->prepare($sql);
@@ -52,10 +47,9 @@ class Invoice
         return $result;
     }
 
-    function getReferencedInvoices()
+    public static function getReferencedInvoices()
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $sql = "SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id WHERE inv_ref != '' ";
             $prepareQuery = $pdoConnection->prepare($sql);
@@ -68,10 +62,9 @@ class Invoice
         return $result;
     }
 
-    function getAllFromInvoicesAndCustomers()
+    public static function getAllFromInvoicesAndCustomers()
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $sql = "SELECT * FROM invoices INNER JOIN customers ON invoices.cus_id = customers.cus_id";
             $prepareQuery = $pdoConnection->prepare($sql);
@@ -84,7 +77,7 @@ class Invoice
         return $result;
     }
 
-    function uploadInvoiceData()
+    public static function uploadInvoiceData()
     {
         if (isset($_GET["idcliente"])) $idCustomer = $_GET["idcliente"];
         if (isset($_POST["reference"])) $reference = $_POST["reference"];
@@ -110,14 +103,13 @@ class Invoice
             $totals = ["grossTotal" => $grossTotal, "igic" => $igic, "total" => $total];
             $invoice["totals"] = $totals;
         }
-        $this->insertInvoiceData($idCustomer, $invoice);
+        Invoice::insertInvoiceData($idCustomer, $invoice);
         header("Location:?page=ingresos");
     }
 
-    function insertInvoiceData($idCustomer, $invoice)
+    public static function insertInvoiceData($idCustomer, $invoice)
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         $reference = $invoice["reference"];
         if ($invoice["notions"] > 0) {
             $invoiceSerialized = serialize($invoice);
@@ -133,7 +125,7 @@ class Invoice
         }
     }
 
-    function exportInvoicesToExcel()
+    public static function exportInvoicesToExcel()
     {
         require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
         $objPHPExcel = new PHPExcel();
@@ -143,8 +135,7 @@ class Invoice
         $_SESSION["invoiceExcelFile"] = $fileURL;
         $objPHPExcel->setActiveSheetIndex(0);
         $date = date('d-m-Y', strtotime($_POST["fileDate"]));
-        $datas = $this->getAllFromInvoicesAndCustomers();
-        $incomeUtils = new Income();
+        $datas = Invoice::getAllFromInvoicesAndCustomers();
         $dateCoordinate = 1;
         $activeSheet = $objPHPExcel->getActiveSheet();
         $activeSheet->setTitle("Facturas");
@@ -265,7 +256,7 @@ class Invoice
         $activeSheet->getPageSetup()->setFitToPage(true);*/
         //$activeSheet->getPageSetup()->setPrintArea('A1:D47;A51:D98');
 
-        $incomeUtils->createIncomeSheet($objPHPExcel);
+        Income::createIncomeSheet($objPHPExcel);
 
         $objWriter->save($fileURL);
         header('Content-Type: application/vnd.ms-excel');
@@ -275,10 +266,9 @@ class Invoice
         exit;
     }
 
-    function deleteInvoicesTable()
+    public static function deleteInvoicesTable()
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $sql = " TRUNCATE table invoices;";
             $prepareQuery = $pdoConnection->prepare($sql);

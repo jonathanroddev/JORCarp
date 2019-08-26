@@ -1,15 +1,12 @@
 <?php
-include_once "DBConnection.php";
-
 class DBUtils
 {
-    function login()
+    public static function login()
     {
         if (isset($_POST["usermail"])) $userMail = $_POST["usermail"];
         if (isset($_POST["password"])) $password = md5($_POST["password"]);
         $sql = "SELECT * FROM users WHERE user_mail='" . $userMail . "' AND user_password='" . $password . "'";
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $prepareQuery = $pdoConnection->prepare($sql);
             $prepareQuery->execute();
@@ -28,10 +25,8 @@ class DBUtils
         }
     }
 
-    function logout()
+    public static function logout()
     {
-        $customer = new Customer();
-        $invoice = new Invoice();
         $_SESSION["userStatus"] = 0;
         $_SESSION["userPrivileges"] = 0;
         $_SESSION["fileUploaded"] = false;
@@ -39,14 +34,16 @@ class DBUtils
         $_SESSION["fileDirectory"] = null;
         if (isset($_SESSION["invoiceExcelFile"])) unlink($_SESSION["invoiceExcelFile"]);
         $_SESSION["invoiceExcelFile"] = null;
-        $customer->deleteCustomersTable();
-        $invoice->deleteInvoicesTable();
+        if (isset($_SESSION["outgoingExcelFile"])) unlink($_SESSION["outgoingExcelFile"]);
+        $_SESSION["outgoingExcelFile"] = null;
+        Customer::deleteCustomersTable();
+        Invoice::deleteInvoicesTable();
+        Outgoing::deleteOutgoingTable();
     }
 
-    function getDatas($sql)
+    public static function getDatas($sql)
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $prepareQuery = $pdoConnection->prepare($sql);
             $prepareQuery->execute();

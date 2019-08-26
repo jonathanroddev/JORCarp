@@ -10,8 +10,9 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
     <div class="row justify-content-center align-items-center" style="padding-top: 25px">
         <div class="col-8">
             <div class="text-center">
-                <button type="button" class="btn btn-primary" value=""
-                        onclick="createRowNewOutgoingInvoice()">Añadir otra
+                <?php $indexRow = sizeof($allOutgoingSaved) + 1;?>
+                <button type="button" class="btn btn-primary" value="<?php echo $indexRow ?>"
+                        onclick="createRowSavedOutgoingInvoice(this)">Añadir otra
                     compra
                 </button>
             </div>
@@ -33,51 +34,65 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php for ($i = 0; $i < sizeof($allOutgoingSaved); $i++) {
-                        //Falta el supplier
-                    $reference = $allOutgoingSaved[$i]["out_ref"];
-                    $date = date('Y-m-d', strtotime($allOutgoingSaved[$i]["out_date"]));
-                    $gross = $allOutgoingSaved[$i]["out_gross"];
-                    $igic = $allOutgoingSaved[$i]["out_igic"];
-                    $total = $allOutgoingSaved[$i]["out_total"];
-                    ?>
+                    <?php
+                    $allGross = 0;
+                    $allIgic = 0;
+                    $allTotal = 0;
+                    for ($i = 0; $i < sizeof($allOutgoingSaved); $i++) {
+                        $supplier = $allOutgoingSaved[$i]["sup_id"];
+                        $reference = $allOutgoingSaved[$i]["out_ref"];
+                        $date = date('Y-m-d', strtotime($allOutgoingSaved[$i]["out_date"]));
+                        $gross = $allOutgoingSaved[$i]["out_gross"];
+                        $igic = $allOutgoingSaved[$i]["out_igic"];
+                        $total = $allOutgoingSaved[$i]["out_total"];
+                        $allGross += $gross;
+                        $allIgic += $igic;
+                        $allTotal += $total;
+                        ?>
+                        <tr>
+                            <td scope="row"><select class="form-control" id="sup<?php echo($i + 1) ?>"
+                                                    name="suppliers[]"
+                                                    form="saveOutgoingForm" required>
+                                    <option value="">Proveedor...</option>
+                                    <?php for ($j = 0; $j < sizeof($suppliers); $j++) {
+                                        $selected = "";
+                                        if ($suppliers[$j]["sup_id"] == $supplier) $selected = "selected";
+                                        echo '<option value="' . $suppliers[$j]["sup_id"] . '" ' . $selected . '>' . $suppliers[$j]["sup_name"] . '</option>';
+                                    } ?>
+                                </select></td>
+                            <td scope="row"><input type="text" class="form-control" id="outref<?php echo($i + 1) ?>"
+                                                   name="outgoingreferences[]" form="saveOutgoingForm"
+                                                   autocomplete="off" required value="<?php echo $reference ?>"></td>
+                            <td scope="row"><input type="date" class="form-control" id="outdate<?php echo($i + 1) ?>"
+                                                   name="outgoingdates[]"
+                                                   form="saveOutgoingForm" required value="<?php echo $date ?>"></td>
+                            <td><input type="number" class="form-control" id="outgross<?php echo($i + 1) ?>"
+                                       name="outgoinggross[]"
+                                       form="saveOutgoingForm"
+                                       oninput="calculateTotalSingleOutgoing(<?php echo($i + 1) ?>)" step=".01"
+                                       autocomplete="off" required value="<?php echo $gross ?>">
+                            </td>
+                            <td><input type="number" class="form-control" id="outigic<?php echo($i + 1) ?>"
+                                       name="outgoingigic[]"
+                                       form="saveOutgoingForm"
+                                       oninput="calculateTotalSingleOutgoing(<?php echo($i + 1) ?>)" step=".01"
+                                       autocomplete="off" value="<?php echo $igic ?>"></td>
+                            <td><input type="text" class="form-control" id="outtotal<?php echo($i + 1) ?>"
+                                       name="outgoingtotals[]"
+                                       form="saveOutgoingForm" step=".01" autocomplete="off" readonly
+                                       value="<?php echo $total ?>"></td>
+                        </tr>
+                    <?php } ?>
                     <tr>
-                        <td scope="row"><select class="form-control" id="sup<?php echo($i + 1) ?>" name="suppliers[]"
-                                                form="saveOutgoingForm" required>
-                                <option selected value="">Proveedor...</option>
-                                <?php for ($i = 0; $i < sizeof($suppliers); $i++) { ?>
-                                    <option value="<?php echo $suppliers[$i]["sup_id"] ?>"><?php echo $suppliers[$i]["sup_name"] ?></option>
-                                <?php } ?>
-                            </select></td>
-                        <td scope="row"><input type="text" class="form-control" id="outref<?php echo($i + 1) ?>"
-                                               name="outgoingreferences[]" form="saveOutgoingForm"
-                                               autocomplete="off" required value="<?php echo $reference ?>"></td>
-                        <td scope="row"><input type="date" class="form-control" id="outdate<?php echo($i + 1) ?>"
-                                               name="outgoingdates[]"
-                                               form="saveOutgoingForm" required value="<?php echo $date ?>"></td>
-                        <td><input type="number" class="form-control" id="outgross<?php echo($i + 1) ?>"
-                                   name="outgoinggross[]"
-                                   form="saveOutgoingForm"
-                                   oninput="calculateTotalSingleOutgoing(<?php echo($i + 1) ?>)" step=".01"
-                                   autocomplete="off" required value="<?php echo $gross ?>">
-                        </td>
-                        <td><input type="number" class="form-control" id="outigic<?php echo($i + 1) ?>"
-                                   name="outgoingigic[]"
-                                   form="saveOutgoingForm"
-                                   oninput="calculateTotalSingleOutgoing(<?php echo($i + 1) ?>)" step=".01"
-                                   autocomplete="off" value="<?php echo $igic ?>"></td>
-                        <td><input type="text" class="form-control" id="outtotal<?php echo($i + 1) ?>"
-                                   name="outgoingtotals[]"
-                                   form="saveOutgoingForm" step=".01" autocomplete="off" readonly value="<?php echo $total ?>"></td>
-                    </tr>
-                    <tr>
-                        <?php } ?>
                         <td colspan="3" scope="row" class=" text-right font-weight-bold"
                             style="vertical-align: middle">Suma de Totales
                         </td>
-                        <td><input type="text" class="form-control" id="outallgross" name="outallgross" readonly>
-                        <td><input type="text" class="form-control" id="outalligic" name="outalligic" readonly>
-                        <td><input type="text" class="form-control" id="outalltotal" name="outalltotal" readonly>
+                        <td><input type="text" class="form-control" id="outallgross" name="outallgross"
+                                   value="<?php echo $allGross ?>" readonly>
+                        <td><input type="text" class="form-control" id="outalligic" name="outalligic"
+                                   value="<?php echo $allIgic ?>" readonly>
+                        <td><input type="text" class="form-control" id="outalltotal" name="outalltotal"
+                                   value="<?php echo $allTotal ?>" readonly>
                         </td>
                     </tr>
                     </tbody>

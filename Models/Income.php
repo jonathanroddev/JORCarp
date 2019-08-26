@@ -1,13 +1,9 @@
 <?php
-include_once "DBConnection.php";
-include_once "Invoice.php";
-
 class Income
 {
-    function createIncomeSheet($objPHPExcel)
+    public static function createIncomeSheet($objPHPExcel)
     {
-        $invoice = new Invoice();
-        $datas = $invoice->getReferencedInvoices();
+        $datas = Invoice::getReferencedInvoices();
         $incomeSheet = $objPHPExcel->createSheet(1);
         $incomeSheet->setTitle("Ingresos");
         $incomeSheet->getDefaultColumnDimension()->setWidth(20);

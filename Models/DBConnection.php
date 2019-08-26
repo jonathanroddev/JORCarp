@@ -3,7 +3,7 @@
 class DBConnection
 {
 
-    function PdoConnection()
+    public static function PdoConnection()
     {
         require 'DBConfiguration.php';
 

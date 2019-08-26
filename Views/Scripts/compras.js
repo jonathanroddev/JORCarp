@@ -27,6 +27,33 @@ function createRowNewOutgoingInvoice() {
     indexRow++;
 }
 
+function createRowSavedOutgoingInvoice(e) {
+    let j = e.value;
+    let suppliers = getCookieSuppliers();
+    let options = "";
+    for (let i = 0; i < suppliers.length; i++) {
+        let supplierId = suppliers[i].sup_id;
+        let supplierName = suppliers[i].sup_name.replace(/\+/g, ' ');
+        options += "<option value='" + supplierId + "'>" + supplierName + "</option>"
+    }
+    ;
+    let table = document.getElementById("outgoing");
+    let row = table.insertRow(j);
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    let cell3 = row.insertCell(2);
+    let cell4 = row.insertCell(3);
+    let cell5 = row.insertCell(4);
+    let cell6 = row.insertCell(5);
+    cell1.innerHTML = "<td scope='row'><select class='form-control' id='sup" + j + "' name='suppliers[]' form='saveOutgoingForm' required><option selected value=''>Proveedor...</option> " + options + "</select></td>";
+    cell2.innerHTML = "<td scope='row'><input type='text' class='form-control' id='outref" + j + "' name='outgoingreferences[]' form='saveOutgoingForm' autocomplete='off' required></td>";
+    cell3.innerHTML = "<td scope='row'><input type='date' class='form-control' id='outdate" + j + "' name='outgoingdates[]' form='saveOutgoingForm'required></td>";
+    cell4.innerHTML = "<td scope='row'><input type='text' class='form-control' id='outgross" + j + "' name='outgoinggross[]' form='saveOutgoingForm' oninput='calculateTotalSingleOutgoing(" + j + ")' autocomplete='off'></td>";
+    cell5.innerHTML = "<td scope='row'><input type='text' class='form-control' id='outigic" + j + "' name='outgoingigic[]' form='saveOutgoingForm' oninput='calculateTotalSingleOutgoing(" + j + ")' autocomplete='off'></td>";
+    cell6.innerHTML = "<td scope='row'><input type='text' class='form-control' id='outtotal" + j + "' name='outgoingtotals[]' form='saveOutgoingForm' autocomplete='off' readonly></td>";
+    e.value = parseInt(j) + 1;;
+}
+
 function calculateTotalSingleOutgoing(index) {
     let outGross = document.getElementById("outgross" + index);
     let outIgic = document.getElementById("outigic" + index);

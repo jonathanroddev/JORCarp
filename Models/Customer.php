@@ -3,10 +3,9 @@ include_once "DBConnection.php";
 
 class Customer
 {
-    function getAddressFromCustomer($idCustomer)
+    public static function getAddressFromCustomer($idCustomer)
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $sql = "SELECT cus_address1 FROM customers WHERE cus_id = " . $idCustomer;
             $prepareQuery = $pdoConnection->prepare($sql);
@@ -19,10 +18,9 @@ class Customer
         return $result;
     }
 
-    function getAllFromCustomers()
+    public static function getAllFromCustomers()
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $sql = "SELECT * FROM customers";
             $prepareQuery = $pdoConnection->prepare($sql);
@@ -35,10 +33,9 @@ class Customer
         return $result;
     }
 
-    function getAllFromSingleCustomer($cusId)
+    public static function getAllFromSingleCustomer($cusId)
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $sql = "SELECT * FROM customers WHERE cus_id=" . $cusId;
             $prepareQuery = $pdoConnection->prepare($sql);
@@ -51,18 +48,18 @@ class Customer
         return $result;
     }
 
-    function uploadCustomersData()
+    public static function uploadCustomersData()
     {
         $uploadTo = 'Files/';
         $uploadCustomersFile = $uploadTo . basename($_FILES['customersFile']['name']);
         move_uploaded_file($_FILES['customersFile']['tmp_name'], $uploadCustomersFile);
         $_SESSION["fileDirectory"] = $uploadCustomersFile;
-        $customers = $this->exportCustomersFromExcel($uploadCustomersFile);
-        $this->insertCustomersDatas($customers);
+        $customers = Customer::exportCustomersFromExcel($uploadCustomersFile);
+        Customer::insertCustomersDatas($customers);
         $_SESSION["fileUploaded"] = true;
     }
 
-    function exportCustomersFromExcel($customersFileName)
+    public static function exportCustomersFromExcel($customersFileName)
     {
         require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
         $objReader = PHPExcel_IOFactory::createReader('Excel2007');
@@ -92,12 +89,11 @@ class Customer
         return $customers;
     }
 
-    function insertCustomersDatas($customers)
+    public static function insertCustomersDatas($customers)
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
-            $customersData = $this->getAllFromCustomers();
+            $customersData = Customer::getAllFromCustomers();
             if ($customersData == null) {
                 for ($i = 0; $i < sizeof($customers); $i++) {
                     $name = $customers[$i]["name"];
@@ -116,10 +112,9 @@ class Customer
         }
     }
 
-    function deleteCustomersTable()
+    public static function deleteCustomersTable()
     {
-        $dbConn = new DBConnection();
-        $pdoConnection = $dbConn->PdoConnection();
+        $pdoConnection = DBConnection::PdoConnection();
         try {
             $sql = "SET FOREIGN_KEY_CHECKS = 0; 
             TRUNCATE table customers; 

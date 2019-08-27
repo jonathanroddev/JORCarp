@@ -12,7 +12,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
                     <hr>
                     <button type="button" class="btn btn-primary btn-block" onclick="location.href='?page=gastos'">Gastos</button>
                     <hr>
-                    <button type="button" class="btn btn-primary btn-block">Balance</button>
+                    <button type="button" class="btn btn-primary btn-block" onclick="location.href='?page=balance'">Balance</button>
                 </div>
             </div>
         </div>

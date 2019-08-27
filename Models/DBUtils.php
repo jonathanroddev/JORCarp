@@ -36,6 +36,13 @@ class DBUtils
         $_SESSION["invoiceExcelFile"] = null;
         if (isset($_SESSION["outgoingExcelFile"])) unlink($_SESSION["outgoingExcelFile"]);
         $_SESSION["outgoingExcelFile"] = null;
+        if (isset($_SESSION["balanceExcelFile"])) unlink($_SESSION["balanceExcelFile"]);
+        $_SESSION["balanceExcelFile"] = null;
+        if (isset($_SESSION["grossIncome"])) $_SESSION["grossIncome"] = null;
+        if (isset($_SESSION["igicIncome"])) $_SESSION["grossIncome"] = null;
+        if (isset($_SESSION["totalIncome"])) $_SESSION["grossIncome"] = null;
+        if (isset($_SESSION["grossOutgoing"])) $_SESSION["grossIncome"] = null;
+        if (isset($_SESSION["igicOutgoing"])) $_SESSION["grossIncome"] = null;
         Customer::deleteCustomersTable();
         Invoice::deleteInvoicesTable();
         Outgoing::deleteOutgoingTable();

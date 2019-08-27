@@ -1,4 +1,5 @@
 <?php
+
 class Income
 {
     public static function createIncomeSheet($objPHPExcel)
@@ -62,5 +63,9 @@ class Income
         $incomeSheet->getStyle("F" . $recordCoordinate)->applyFromArray($headerStyle);
 
         $incomeSheet->getStyle("A" . $headerCoordinate . ":F" . $recordCoordinate)->applyFromArray($borderStyle);
+
+        $_SESSION["grossIncome"] = $grossTotalReferenced;
+        $_SESSION["igicIncome"] = $igicTotalReferenced;
+        $_SESSION["totalIncome"] = $totalReferenced;
     }
 }

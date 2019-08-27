@@ -145,6 +145,9 @@ class Outgoing
 
         $activeSheet->getStyle("A" . $headerCoordinate . ":G" . $recordCoordinate)->applyFromArray($borderStyle);
 
+        $_SESSION["grossOutgoing"] = $allGross;
+        $_SESSION["igicOutgoing"] = $allIgic;
+
         $objWriter->save($fileURL);
         header('Content-Type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=" . $fileName);

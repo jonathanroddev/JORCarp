@@ -4,6 +4,7 @@ include_once("Models/Invoice.php");
 include_once("Models/Outgoing.php");
 include_once("Models/Customer.php");
 include_once("Models/Supplier.php");
+include_once("Models/Balance.php");
 if (isset($_GET["page"]) && $_GET["page"] != "") {
     $page = $_GET["page"];
     $oneCusAddress = "";
@@ -14,7 +15,7 @@ if (isset($_GET["page"]) && $_GET["page"] != "") {
     }
     $titles = array("login" => "Login", "contabilidad" => "Contabilidad", "ingresos" => "Ingresos", "factura" => "Cliente: " . $oneCusAddress,
         "registrofactura" => "Cliente: " . $oneCusAddress, "gastos" => "Gastos", "proveedores" => "Proveedores", "compras" => "Compras del mes",
-        "registrocompras" => "Registro del mes");
+        "registrocompras" => "Compras del mes", "balance" => "Balance del mes");
     $title = $titles[$page];
     switch ($page) {
         case "ingresos":
@@ -78,6 +79,9 @@ if (isset($_GET["deleteSup"])) {
 }
 if (isset($_POST["saveOutgoing"])) {
     Outgoing::saveOutgoingInDB();
+}
+if (isset($_POST["createBalance"])) {
+   Balance::createBalanceFile();
 }
 ?>
 

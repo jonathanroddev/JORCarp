@@ -37,7 +37,7 @@ include_once("Controllers/MainController.php");
                     <a class="nav-link" href="?page=gastos">Gastos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Balance</a>
+                    <a class="nav-link" href="?page=balance">Balance</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"

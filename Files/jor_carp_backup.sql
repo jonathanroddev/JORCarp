@@ -86,14 +86,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_mail` varchar(255) NOT NULL,
   `user_password` varchar(255) NOT NULL,
   `user_status` int(11) NOT NULL DEFAULT '0' COMMENT '0 = Blocked; 1 = Validated',
-  `user_privilege` int(11) NOT NULL DEFAULT '0' COMMENT '0 = User; 1 = Admin',
+  `user_privileges` int(11) NOT NULL DEFAULT '0' COMMENT '0 = User; 1 = Admin',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla jor_carp.users: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla jor_carp.users: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-REPLACE INTO `users` (`user_id`, `user_name`, `user_mail`, `user_password`, `user_status`, `user_privilege`) VALUES
-	(1, 'José', 'jorcarp@webmaster.com', '662eaa47199461d01a623884080934ab', 1, 1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -1,7 +1,8 @@
 <?php
+
 class DBUtils
 {
-    public static function login()
+    public static function login($userMail,$password)
     {
         if (isset($_POST["usermail"])) $userMail = $_POST["usermail"];
         if (isset($_POST["password"])) $password = md5($_POST["password"]);
@@ -10,10 +11,11 @@ class DBUtils
         try {
             $prepareQuery = $pdoConnection->prepare($sql);
             $prepareQuery->execute();
+            $datas = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
             $result = $prepareQuery->rowCount();
             if ($result == 1) {
-                $_SESSION["userStatus"] = 1;
-                $_SESSION["userPrivileges"] = 1;
+                $_SESSION["userStatus"] = $datas[0]["user_status"];
+                $_SESSION["userPrivileges"] = $datas[0]["user_privileges"];
                 header("Location:?page=contabilidad");
                 exit();
             } else {
@@ -48,7 +50,48 @@ class DBUtils
         Outgoing::deleteOutgoingTable();
     }
 
-    public static function getDatas($sql)
+    public static function getUser($userMail)
+    {
+        $pdoConnection = DBConnection::PdoConnection();
+        $result = false;
+        try {
+            $sql = "SELECT * FROM users WHERE user_mail = '" . $userMail . "'";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+            $outgoing = $prepareQuery->fetchAll(PDO::FETCH_ASSOC);
+            if (isset($outgoing[0])){
+                $result = true;
+                $_POST["errorUser"] = true;
+            }
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+        return $result;
+    }
+
+    public static function createNewUser()
+    {
+        if (isset($_POST["username"])) $userName = $_POST["username"];
+        if (isset($_POST["usermail"])) $userMail = $_POST["usermail"];
+        if (isset($_POST["userpass"])) $userPass = md5($_POST["userpass"]);
+        $status = 1;
+        $privileges = 1;
+        $pdoConnection = DBConnection::PdoConnection();
+        try {
+            $sql = "INSERT INTO users (user_name, user_mail, user_password, user_status, user_privileges) VALUES (
+            '" . $userName . "', '" . $userMail . "', '" . $userPass . "'," . $status . "," . $privileges . ")";
+            $prepareQuery = $pdoConnection->prepare($sql);
+            $prepareQuery->execute();
+            DBUtils::login($userName,$userPass);
+        } catch (Exception $e) {
+            echo '<hr>Reading Error: (' . $e->getMessage() . ')';
+            return false;
+        }
+    }
+
+    public
+    static function getDatas($sql)
     {
         $pdoConnection = DBConnection::PdoConnection();
         try {

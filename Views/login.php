@@ -24,6 +24,10 @@ if (!isset($_SESSION["userStatus"]) || $_SESSION["userStatus"] == 0) {
                     Usuario y/o contraseña no válidos.
                 </div>
         <?php } ?>
+        <br>
+        <div class="row justify-content-center align-items-right">
+            <a href="?page=registrousuario">¿No tienes una cuenta de usuario?</a>
+        </div>
     </div>
 <?php } else { ?>
     <div class="row justify-content-center align-items-center" style="height:50vh">

@@ -17,7 +17,9 @@ include_once("Controllers/MainController.php");
 <body>
 <header>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <p class="font-weight-bolder font-italic"><a class="navbar-brand" href="?page=contabilidad">Carpintería José
+    <?php $pageHref = "login";
+    if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) $pageHref = "contabilidad"; ?>
+    <p class="font-weight-bolder font-italic"><a class="navbar-brand" href="?page=<?php echo $pageHref?>">Carpintería José
             Octavio</a></p>
     <p class="font-weight-bolder font-italic text-right navbar-brand"><small>&copy;Jonathan Rodríguez</small></p>
     <?php if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
@@ -39,7 +41,10 @@ include_once("Controllers/MainController.php");
                 <li class="nav-item">
                     <a class="nav-link" href="?page=balance">Balance</a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item">
+                    <a class="nav-link" href="?page=login&logout=yes"><i class="material-icons">exit_to_app</i></a>
+                </li>
+                <!--<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Usuario
@@ -48,7 +53,7 @@ include_once("Controllers/MainController.php");
                         <a class="dropdown-item" href="#">Cuenta</a>
                         <a class="dropdown-item" href="?page=login&logout=yes">Logout<br><i class="material-icons">exit_to_app</i></a>
                     </div>
-                </li>
+                </li>-->
             </ul>
         </div>
     <?php } ?>

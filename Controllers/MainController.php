@@ -15,7 +15,7 @@ if (isset($_GET["page"]) && $_GET["page"] != "") {
     }
     $titles = array("login" => "Login", "contabilidad" => "Contabilidad", "ingresos" => "Ingresos", "factura" => "Cliente: " . $oneCusAddress,
         "registrofactura" => "Cliente: " . $oneCusAddress, "gastos" => "Gastos", "proveedores" => "Proveedores", "compras" => "Compras del mes",
-        "registrocompras" => "Compras del mes", "balance" => "Balance del mes");
+        "registrocompras" => "Compras del mes", "balance" => "Balance del mes", "registrousuario" => "Nuevo Usuario");
     $title = $titles[$page];
     switch ($page) {
         case "ingresos":
@@ -82,6 +82,16 @@ if (isset($_POST["saveOutgoing"])) {
 }
 if (isset($_POST["createBalance"])) {
    Balance::createBalanceFile();
+}
+if (isset($_POST["newUser"])) {
+    $userMail = $_POST["usermail"];
+    $userRegistered = DBUtils::getUser($userMail);
+    if(!$userRegistered) {
+        DBUtils::createNewUser();
+    }
+    else {
+        $page = "registrousuario";
+    }
 }
 ?>
 

@@ -4,8 +4,6 @@ class DBUtils
 {
     public static function login($userMail,$password)
     {
-        if (isset($_POST["usermail"])) $userMail = $_POST["usermail"];
-        if (isset($_POST["password"])) $password = md5($_POST["password"]);
         $sql = "SELECT * FROM users WHERE user_mail='" . $userMail . "' AND user_password='" . $password . "'";
         $pdoConnection = DBConnection::PdoConnection();
         try {

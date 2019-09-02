@@ -50,7 +50,9 @@ if (isset($_GET["page"]) && $_GET["page"] != "") {
     $page = "login";
 }
 if (isset($_POST["login"])) {
-    DBUtils::login();
+    if (isset($_POST["usermail"])) $userMail = $_POST["usermail"];
+    if (isset($_POST["password"])) $password = md5($_POST["password"]);
+    DBUtils::login($userMail,$password);
 }
 if (isset($_GET["logout"])) {
     DBUtils::logout();

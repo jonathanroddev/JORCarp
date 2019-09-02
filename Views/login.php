@@ -8,7 +8,7 @@ if (!isset($_SESSION["userStatus"]) || $_SESSION["userStatus"] == 0) {
                 <div class="card-body">
                     <form method="POST" action="">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="usermail" placeholder="Usuario" required>
+                            <input type="text" class="form-control" name="usermail" placeholder="Usuario" required autocomplete="off">
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-control" name="password" placeholder="Contraseña"

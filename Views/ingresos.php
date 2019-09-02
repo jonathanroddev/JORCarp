@@ -17,6 +17,9 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) {
                 </div>
             </div>
         </div>
+        <div class="row justify-content-center align-items-right">
+            <a href="/Files/Examples/Plantilla%20Datos%20Clientes.xlsx">Descargar archivo plantilla.</a>
+        </div>
     <?php } else {
         for ($i = 0; $i < sizeof($customers); $i++) {
             $customer = $customers[$i];

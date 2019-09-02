@@ -6,7 +6,7 @@ class Balance
     {
         require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
         $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-        $objPHPExcel = $objReader->load("Files/Plantilla Balance.xlsx");
+        $objPHPExcel = $objReader->load("Files/Examples/Plantilla Balance.xlsx");
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $activeSheet = $objPHPExcel->getActiveSheet();
         $textStyle = array('alignment' => array('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,), 'font' => array('bold' => true,));

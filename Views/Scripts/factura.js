@@ -40,7 +40,7 @@ function calculateAmount(index) {
 function calculateTotal() {
     let reference = document.getElementById("reference");
     let grossTotal = document.getElementById("grosstotal");
-    let igicPercentage = 6.5 / 100;
+    let igicPercentage = 7 / 100;
     let igicTotal = document.getElementById("igic");
     let total = document.getElementById("total");
     let amounts = document.getElementsByName("amounts[]");

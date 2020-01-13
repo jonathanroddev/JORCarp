@@ -75,8 +75,14 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
 /*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
 REPLACE INTO `suppliers` (`sup_id`, `sup_name`, `sup_cif`) VALUES
 	(1, 'LEROY MERLIN', 'B84818442'),
-	(2, 'DISA', 'A38013611'),
-	(3, 'BRICOMART', 'B84406289');
+(2, 'DISA', 'A38013611'),
+(3, 'BRICOMART', 'B84406289'),
+(4, 'NICODEMO', '42684100X'),
+(5, 'ATLÁNTICO', '54066823X'),
+(6, 'COMERCIAL CID', 'A35045756'),
+(7, 'MADERAS EL PINO', 'B35027143'),
+(8, 'HERRAJES FAMAR', 'B35744630');
+
 /*!40000 ALTER TABLE `suppliers` ENABLE KEYS */;
 
 -- Volcando estructura para tabla jor_carp.users

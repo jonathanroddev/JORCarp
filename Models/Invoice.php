@@ -217,7 +217,7 @@ class Invoice
             $activeSheet->getStyle("C" . $grossTotalCoordinate)->getFont()->setBold(true);
             $activeSheet->setCellValue("D" . $grossTotalCoordinate, number_format($invoice["totals"]["grossTotal"], 2, ",", ".") . " €");
             $activeSheet->getStyle("D" . $grossTotalCoordinate)->applyFromArray($textAlignStyle);
-            $activeSheet->setCellValue("C" . $igicCoordinate, "IGIC 6,5%:");
+            $activeSheet->setCellValue("C" . $igicCoordinate, "IGIC 7%:");
             $activeSheet->getStyle("C" . $igicCoordinate)->getFont()->setBold(true);
             if ($datas[$i]["inv_ref"] == "")
                 $activeSheet->setCellValue("D" . $igicCoordinate, "");

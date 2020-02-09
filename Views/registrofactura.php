@@ -103,7 +103,7 @@ if (isset($_SESSION["userPrivileges"]) && $_SESSION["userPrivileges"] == 1) { ?>
                                        value="<?php echo $grossTotal ?>" readonly></td>
                         </tr>
                         <tr>
-                            <td colspan="3" scope="row" class="text-right">IGIC 6,5%</td>
+                            <td colspan="3" scope="row" class="text-right">IGIC 7%</td>
                             <td><input type="text" class="form-control" id="igic" name="igic"
                                        value="<?php echo $igic ?>" readonly></td>
                         </tr>
